@@ -53,40 +53,77 @@ function draw(){
 
     buffer.restore();
 
+    // Draw UI.
+    buffer.fillStyle = '#444';
+    buffer.fillRect(
+      0,
+      0,
+      200,
+      200
+    );
+
+    buffer.fillStyle = '#0a0';
+    buffer.fillRect(
+      0,
+      0,
+      200 * (player['health']['current'] / player['health']['max']),
+      100
+    );
+    buffer.fillStyle = '#66f';
+    buffer.fillRect(
+      0,
+      100,
+      200 * (player['mana']['current'] / player['mana']['max']),
+      100
+    );
+
     // Setup text display.
     buffer.fillStyle = '#fff';
     buffer.font = '23pt sans-serif';
-
-    buffer.fillText(
-      player['health']['current']
-        + '/'
-        + player['health']['max']
-        + ', '
-        + player['health']['regeneration']['current']
-        + '/'
-        + player['health']['regeneration']['max'],
-      0,
-      25
-    );
-
-    buffer.fillText(
-      player['mana']['current']
-        + '/'
-        + player['mana']['max']
-        + ', '
-        + player['mana']['regeneration']['current']
-        + '/'
-        + player['mana']['regeneration']['max'],
-      0,
-      50
-    );
+    buffer.textAlign = 'center';
+    buffer.textBaseline = 'middle';
 
     buffer.fillText(
       player['spells']['current']
         + '/'
         + player['spells']['reload'],
-      0,
+      100,
+      225
+    );
+
+    buffer.fillText(
+      player['health']['current'],
+      50,
+      25
+    );
+    buffer.fillText(
+      player['health']['max'],
+      50,
       75
+    );
+    buffer.fillText(
+      player['mana']['current'],
+      50,
+      125
+    );
+    buffer.fillText(
+      player['mana']['max'],
+      50,
+      175
+    );
+
+    buffer.font = '16pt sans-serif';
+    buffer.fillText(
+      player['health']['regeneration']['current']
+        + '/' + player['health']['regeneration']['max'],
+      150,
+      75
+    );
+    buffer.fillText(
+      player['mana']['regeneration']['current']
+        + '/' + player['mana']['regeneration']['max'],
+      150,
+      175
     );
 
     // Draw game over messages.
