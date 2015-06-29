@@ -114,10 +114,22 @@ function draw(){
 
     buffer.font = '16pt sans-serif';
     buffer.fillText(
+      parseInt(player['health']['current'] * 100 / player['health']['max'])
+        + '%',
+      150,
+      25
+    );
+    buffer.fillText(
       player['health']['regeneration']['current']
         + '/' + player['health']['regeneration']['max'],
       150,
       75
+    );
+    buffer.fillText(
+      parseInt(player['mana']['current'] * 100 / player['mana']['max'])
+        + '%',
+      150,
+      125
     );
     buffer.fillText(
       player['mana']['regeneration']['current']
