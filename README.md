@@ -6,6 +6,7 @@ RPG-2D.htm
 ---
 
 Action              | Key
---------------------|-----
+--------------------|------------
+Cast Selected Spell | Mouse Click
 Move Player         | WASD
 Return to Main Menu | ESC
