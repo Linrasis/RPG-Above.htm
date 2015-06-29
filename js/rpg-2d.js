@@ -29,6 +29,28 @@ function draw(){
         );
     }
 
+    // Draw dynamic world objects.
+    for(var object in world_dynamic){
+        buffer.fillStyle = world_dynamic[object]['color'];
+        buffer.fillRect(
+          world_dynamic[object]['x'] - world_dynamic[object]['width'] / 2,
+          world_dynamic[object]['y'] - world_dynamic[object]['height'] / 2,
+          world_dynamic[object]['width'],
+          world_dynamic[object]['height']
+        );
+    }
+
+    // Draw NPCs.
+    for(var npc in npcs){
+        buffer.fillStyle = npcs[npc]['color'];
+        buffer.fillRect(
+          npcs[npc]['x'] - npcs[npc]['width'] / 2,
+          npcs[npc]['y'] - npcs[npc]['height'] / 2,
+          npcs[npc]['width'],
+          npcs[npc]['height']
+        );
+    }
+
     // Draw particles.
     for(var particle in particles){
         buffer.fillStyle = particles[particle]['color'];
@@ -404,12 +426,33 @@ function setmode(newmode, newgame){
             resize();
         }
 
+        world_dynamic.push({
+          'color': '#222',
+          'height': 100,
+          'width': 25,
+          'x': -150,
+          'y': -150,
+        });
         world_static.push({
           'color': '#333',
           'height': 500,
           'width': 500,
           'x': -250,
           'y': -250,
+        });
+
+        npcs.push({
+          'color': '#fff',
+          'height': 20,
+          'width': 20,
+          'x': -200,
+          'y': 100,
+        },{
+          'color': '#fff',
+          'height': 20,
+          'width': 20,
+          'x': 200,
+          'y': -100,
         });
 
         animationFrame = window.requestAnimationFrame(draw);
@@ -447,6 +490,7 @@ var mouse_lock_x = 0;
 var mouse_lock_y = 0;
 var mouse_x = 0;
 var mouse_y = 0;
+var npcs = [];
 var particles = [];
 var player = {};
 var settings = {
@@ -460,6 +504,7 @@ var settings = {
 };
 var x = 0;
 var width = 0;
+var world_dynamic = [];
 var world_static = [];
 var y = 0;
 
