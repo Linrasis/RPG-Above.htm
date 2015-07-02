@@ -106,9 +106,9 @@ function draw(){
     buffer.textBaseline = 'middle';
 
     buffer.fillText(
-      player['spells']['current']
+      player['spellbook']['bolt']['current']
         + '/'
-        + player['spells']['reload'],
+        + player['spellbook']['bolt']['reload'],
       100,
       225
     );
@@ -229,12 +229,12 @@ function logic(){
         player['y'] -= 2;
     }
 
-    if(player['spells']['current'] >= player['spells']['reload']){
+    if(player['spellbook']['bolt']['current'] >= player['spellbook']['bolt']['reload']){
        if(mouse_lock_x > -1
-          && player['mana']['current'] > 0){
-            player['spells']['current'] = 0;
+          && player['mana']['current'] >= player['spellbook']['bolt']['cost']){
+            player['spellbook']['bolt']['current'] = 0;
             player['mana']['current'] = Math.max(
-              player['mana']['current'] - 1,
+              player['mana']['current'] - player['spellbook']['bolt']['cost'],
               0
             );
 
@@ -259,7 +259,7 @@ function logic(){
         }
 
     }else{
-        player['spells']['current'] += 1;
+        player['spellbook']['bolt']['current'] += 1;
     }
 
     // Handle particles.
@@ -404,9 +404,13 @@ function setmode(newmode, newgame){
               'max': 100,
             },
           },
-          'spells': {
-            'current': 10,
-            'reload': 10,
+          'inventory': [],
+          'spellbook': {
+            'bolt': {
+              'cost': 1,
+              'current': 10,
+              'reload': 10,
+            },
           },
           'x': 0,
           'y': 0,
