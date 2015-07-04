@@ -88,14 +88,14 @@ function draw(){
     buffer.fillRect(
       0,
       0,
-      200 * (player['health']['current'] / player['health']['max']),
+      200 * (player['stats']['health']['current'] / player['stats']['health']['max']),
       100
     );
     buffer.fillStyle = '#66f';
     buffer.fillRect(
       0,
       100,
-      200 * (player['mana']['current'] / player['mana']['max']),
+      200 * (player['stats']['mana']['current'] / player['stats']['mana']['max']),
       100
     );
 
@@ -106,56 +106,56 @@ function draw(){
     buffer.textBaseline = 'middle';
 
     buffer.fillText(
-      player['spellbook']['bolt']['current']
+      player['spellbook'][player['selected']]['current']
         + '/'
-        + player['spellbook']['bolt']['reload'],
+        + player['spellbook'][player['selected']]['reload'],
       100,
       225
     );
 
     buffer.fillText(
-      player['health']['current'],
+      player['stats']['health']['current'],
       50,
       25
     );
     buffer.fillText(
-      player['health']['max'],
+      player['stats']['health']['max'],
       50,
       75
     );
     buffer.fillText(
-      player['mana']['current'],
+      player['stats']['mana']['current'],
       50,
       125
     );
     buffer.fillText(
-      player['mana']['max'],
+      player['stats']['mana']['max'],
       50,
       175
     );
 
     buffer.font = '16pt sans-serif';
     buffer.fillText(
-      parseInt(player['health']['current'] * 100 / player['health']['max'])
+      parseInt(player['stats']['health']['current'] * 100 / player['stats']['health']['max'])
         + '%',
       150,
       25
     );
     buffer.fillText(
-      player['health']['regeneration']['current']
-        + '/' + player['health']['regeneration']['max'],
+      player['stats']['health']['regeneration']['current']
+        + '/' + player['stats']['health']['regeneration']['max'],
       150,
       75
     );
     buffer.fillText(
-      parseInt(player['mana']['current'] * 100 / player['mana']['max'])
+      parseInt(player['stats']['mana']['current'] * 100 / player['stats']['mana']['max'])
         + '%',
       150,
       125
     );
     buffer.fillText(
-      player['mana']['regeneration']['current']
-        + '/' + player['mana']['regeneration']['max'],
+      player['stats']['mana']['regeneration']['current']
+        + '/' + player['stats']['mana']['regeneration']['max'],
       150,
       175
     );
@@ -196,19 +196,19 @@ function logic(){
     }
 
     // Regenerate player health and mana.
-    if(player['health']['current'] < player['health']['max']){
-        player['health']['regeneration']['current'] += 1;
-        if(player['health']['regen']['current'] >= player['health']['regeneration']['max']){
-            player['health']['current'] += 1;
-            player['health']['regeneration']['current'] = 0;
+    if(player['stats']['health']['current'] < player['stats']['health']['max']){
+        player['stats']['health']['regeneration']['current'] += 1;
+        if(player['stats']['health']['regen']['current'] >= player['stats']['health']['regeneration']['max']){
+            player['stats']['health']['current'] += 1;
+            player['stats']['health']['regeneration']['current'] = 0;
         }
     }
 
-    if(player['mana']['current'] < player['mana']['max']){
-        player['mana']['regeneration']['current'] += 1;
-        if(player['mana']['regeneration']['current'] >= player['mana']['regeneration']['max']){
-            player['mana']['current'] += 1;
-            player['mana']['regeneration']['current'] = 0;
+    if(player['stats']['mana']['current'] < player['stats']['mana']['max']){
+        player['stats']['mana']['regeneration']['current'] += 1;
+        if(player['stats']['mana']['regeneration']['current'] >= player['stats']['mana']['regeneration']['max']){
+            player['stats']['mana']['current'] += 1;
+            player['stats']['mana']['regeneration']['current'] = 0;
         }
     }
 
@@ -229,12 +229,12 @@ function logic(){
         player['y'] -= 2;
     }
 
-    if(player['spellbook']['bolt']['current'] >= player['spellbook']['bolt']['reload']){
+    if(player['spellbook'][player['selected']]['current'] >= player['spellbook'][player['selected']]['reload']){
        if(mouse_lock_x > -1
-          && player['mana']['current'] >= player['spellbook']['bolt']['cost']){
-            player['spellbook']['bolt']['current'] = 0;
-            player['mana']['current'] = Math.max(
-              player['mana']['current'] - player['spellbook']['bolt']['cost'],
+          && player['stats']['mana']['current'] >= player['spellbook'][player['selected']]['cost']){
+            player['spellbook'][player['selected']]['current'] = 0;
+            player['stats']['mana']['current'] = Math.max(
+              player['stats']['mana']['current'] - player['spellbook'][player['selected']]['cost'],
               0
             );
 
@@ -259,7 +259,7 @@ function logic(){
         }
 
     }else{
-        player['spellbook']['bolt']['current'] += 1;
+        player['spellbook'][player['selected']]['current'] += 1;
     }
 
     // Handle particles.
@@ -388,28 +388,40 @@ function setmode(newmode, newgame){
         }
 
         player = {
-          'health': {
-            'current': 100,
-            'max': 100,
-            'regeneration': {
-              'current': 0,
-              'max': 100,
-            },
-          },
-          'mana': {
-            'current': 10,
-            'max': 10,
-            'regeneration': {
-              'current': 0,
-              'max': 100,
-            },
+          'equipment': {
+            'feet': undefined,
+            'head': undefined,
+            'off-hand': undefined,
+            'legs': undefined,
+            'main-hand': undefined,
+            'neck': undefined,
+            'torso': undefined,
           },
           'inventory': [],
+          'selected': 'bolt',
           'spellbook': {
             'bolt': {
               'cost': 1,
               'current': 10,
               'reload': 10,
+            },
+          },
+          'stats': {
+            'health': {
+              'current': 100,
+              'max': 100,
+              'regeneration': {
+                'current': 0,
+                'max': 100,
+              },
+            },
+            'mana': {
+              'current': 10,
+              'max': 10,
+              'regeneration': {
+                'current': 0,
+                'max': 100,
+              },
             },
           },
           'x': 0,
@@ -431,6 +443,7 @@ function setmode(newmode, newgame){
         }
 
         world_dynamic.push({
+          'collision': true,
           'color': '#222',
           'height': 100,
           'width': 25,
@@ -447,12 +460,14 @@ function setmode(newmode, newgame){
 
         npcs.push({
           'color': '#fff',
+          'friendly': true,
           'height': 20,
           'width': 20,
           'x': -200,
           'y': 100,
         },{
           'color': '#fff',
+          'friendly': false,
           'height': 20,
           'width': 20,
           'x': 200,
