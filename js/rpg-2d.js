@@ -275,6 +275,22 @@ function logic(){
             );
             continue;
         }
+
+        for(var object in world_dynamic){
+            if(!world_dynamic[object]['collision']
+              || particles[particle]['x'] <= world_dynamic[object]['x'] - world_dynamic[object]['width'] / 2
+              || particles[particle]['x'] >= world_dynamic[object]['x'] + world_dynamic[object]['width'] / 2
+              || particles[particle]['y'] <= world_dynamic[object]['y'] - world_dynamic[object]['height'] / 2
+              || particles[particle]['y'] >= world_dynamic[object]['y'] + world_dynamic[object]['height'] / 2){
+                continue;
+            }
+
+            particles.splice(
+              particle,
+              1
+            );
+            break;
+        }
     }
 }
 
