@@ -33,8 +33,8 @@ function draw(){
     for(var object in world_dynamic){
         buffer.fillStyle = world_dynamic[object]['color'];
         buffer.fillRect(
-          world_dynamic[object]['x'] - world_dynamic[object]['width'] / 2,
-          world_dynamic[object]['y'] - world_dynamic[object]['height'] / 2,
+          world_dynamic[object]['x'],
+          world_dynamic[object]['y'],
           world_dynamic[object]['width'],
           world_dynamic[object]['height']
         );
@@ -212,22 +212,70 @@ function logic(){
         }
     }
 
+    player_dx = 0;
+    player_dy = 0;
+
     // Add player key movments to dx and dy, if still within level boundaries.
     if(key_left){
-        player['x'] -= 2;
+        player_dx -= 2;
     }
 
     if(key_right){
-        player['x'] += 2;
+        player_dx += 2;
     }
 
     if(key_down){
-        player['y'] += 2;
+        player_dy += 2;
     }
 
     if(key_up){
-        player['y'] -= 2;
+        player_dy -= 2;
     }
+
+    // Check for player collision with foreground obstacles.
+    for(var object in world_dynamic){
+        if(player['x'] + player_dx - 17 > world_dynamic[object]['x'] + world_dynamic[object]['width']
+          || player['x'] + player_dx + 17 < world_dynamic[object]['x']
+          || player['y'] + player_dy - 17 > world_dynamic[object]['y'] + world_dynamic[object]['height']
+          || player['y'] + player_dy + 17 < world_dynamic[object]['y']){
+            continue;
+        }
+
+        if(player['y'] != world_dynamic[object]['y'] - 18
+          && player['y'] != world_dynamic[object]['y'] + world_dynamic[object]['height'] + 18){
+            if(key_left
+              && player['y'] + player_dy + 17 > world_dynamic[object]['y']
+              && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
+              && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']){
+                player_dx = 0;
+            }
+
+            if(key_right
+              && player['y'] + player_dy + 17 > world_dynamic[object]['y']
+              && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
+              && player['x'] + player_dx + 17 > world_dynamic[object]['x']){
+                player_dx = 0;
+            }
+        }
+
+        if(key_down
+          && player['x'] + player_dx + 17 > world_dynamic[object]['x']
+          && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']
+          && player['y'] + player_dy + 17 > world_dynamic[object]['y']){
+            player_dy = 0;
+        }
+
+        if(key_up
+          && player['x'] + player_dx + 17 > world_dynamic[object]['x']
+          && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']
+          && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']){
+            player_dy = 0;
+        }
+    }
+
+    // Update actual player position.
+    player['x'] += player_dx;
+    player['y'] += player_dy;
 
     if(player['spellbook'][player['selected']]['current'] >= player['spellbook'][player['selected']]['reload']){
        if(mouse_lock_x > -1
@@ -278,10 +326,10 @@ function logic(){
 
         for(var object in world_dynamic){
             if(!world_dynamic[object]['collision']
-              || particles[particle]['x'] <= world_dynamic[object]['x'] - world_dynamic[object]['width'] / 2
-              || particles[particle]['x'] >= world_dynamic[object]['x'] + world_dynamic[object]['width'] / 2
-              || particles[particle]['y'] <= world_dynamic[object]['y'] - world_dynamic[object]['height'] / 2
-              || particles[particle]['y'] >= world_dynamic[object]['y'] + world_dynamic[object]['height'] / 2){
+              || particles[particle]['x'] <= world_dynamic[object]['x']
+              || particles[particle]['x'] >= world_dynamic[object]['x'] + world_dynamic[object]['width']
+              || particles[particle]['y'] <= world_dynamic[object]['y']
+              || particles[particle]['y'] >= world_dynamic[object]['y'] + world_dynamic[object]['height']){
                 continue;
             }
 
