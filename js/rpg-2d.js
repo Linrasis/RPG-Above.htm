@@ -289,6 +289,47 @@ function logic(){
               particle,
               1
             );
+            return;
+        }
+
+        // Handle particles not owned by player.
+        if(particles[particle]['owner'] > 0){
+            if(particles[particle]['x'] > player['x'] - 17
+              && particles[particle]['x'] < player['x'] + 17
+              && particles[particle]['y'] > player['y'] - 17
+              && particles[particle]['y'] < player['y'] + 17){
+                particles.splice(
+                  particle,
+                  1
+                );
+            }
+
+            return;
+        }
+
+        // Handle particles owned by player.
+        for(var npc in npcs){
+            if(npcs[npc]['friendly']
+              || particles[particle]['x'] <= npcs[npc]['x'] - npcs[npc]['width'] / 2
+              || particles[particle]['x'] >= npcs[npc]['x'] + npcs[npc]['width'] / 2
+              || particles[particle]['y'] <= npcs[npc]['y'] - npcs[npc]['height'] / 2
+              || particles[particle]['y'] >= npcs[npc]['y'] + npcs[npc]['height'] / 2){
+                continue;
+            }
+
+            particles.splice(
+              particle,
+              1
+            );
+
+            npcs[npc]['stats']['health'] -= 1;
+            if(npcs[npc]['stats']['health'] <= 0){
+                npcs.splice(
+                  npc,
+                  1
+                );
+            }
+
             break;
         }
     }
@@ -391,7 +432,10 @@ function setmode(newmode, newgame){
     window.cancelAnimationFrame(animationFrame);
     window.clearInterval(interval);
 
+    npcs.length = 0;
     particles.length = 0;
+    world_dynamic.length = 0;
+    world_static.length = 0;
 
     game_running = true;
     mode = newmode;
@@ -485,6 +529,9 @@ function setmode(newmode, newgame){
           'color': '#fff',
           'friendly': false,
           'height': 20,
+          'stats': {
+            'health': 10,
+          },
           'width': 20,
           'x': 200,
           'y': -100,
