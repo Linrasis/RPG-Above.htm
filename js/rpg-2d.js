@@ -13,6 +13,7 @@ function create_npc(properties){
         properties['stats']['health']['current'] = properties['stats']['health']['current'] || 1;
         properties['stats']['health']['max'] = properties['stats']['health']['max'] || 1;
 
+    properties['selected'] = properties['selected'] || undefined;
     properties['spellbook'] = properties['spellbook'] || {};
 
     npcs.push(properties);
@@ -333,14 +334,14 @@ function logic(){
 
     // Handle NPCs.
     for(var npc in npcs){
-        if(Object.keys(npcs[npc]['spellbook']).length == 0){
+        if(npcs[npc]['selected'] == undefined){
             continue;
         }
 
-        npcs[npc]['spellbook']['bolt']['current'] += 1;
+        npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] += 1;
 
-        if(npcs[npc]['spellbook']['bolt']['current'] >= npcs[npc]['spellbook']['bolt']['reload']){
-            npcs[npc]['spellbook']['bolt']['current'] = 0;
+        if(npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] >= npcs[npc]['spellbook'][npcs[npc]['selected']]['reload']){
+            npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] = 0;
 
             // Calculate particle movement...
             var j = m(
@@ -355,7 +356,7 @@ function logic(){
               'color': '#f00',
               'dx': (player['x'] > npcs[npc]['x'] ? j[0] : -j[0]),
               'dy': (player['y'] > npcs[npc]['y'] ? j[1] : -j[1]),
-              'lifespan': npcs[npc]['spellbook']['bolt']['lifespan'],
+              'lifespan': npcs[npc]['spellbook'][npcs[npc]['selected']]['lifespan'],
               'owner': npc,
               'x': npcs[npc]['x'],
               'y': npcs[npc]['y'],
@@ -404,7 +405,7 @@ function logic(){
                   1
                 );
 
-                player['stats']['health']['current'] -= npcs[npc]['spellbook']['bolt']['damage'];
+                player['stats']['health']['current'] -= npcs[npc]['spellbook'][npcs[npc]['selected']]['damage'];
             }
 
             continue;
@@ -629,6 +630,7 @@ function setmode(newmode, newgame){
           'y': 100,
         });
         create_npc({
+          'selected': 'bolt',
           'spellbook': {
             'bolt': {
               'current': 0,
