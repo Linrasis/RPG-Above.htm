@@ -383,7 +383,7 @@ function logic(){
               1
             );
 
-            npcs[npc]['stats']['health'] -= 1;
+            npcs[npc]['stats']['health'] -= player['spellbook'][player['selected']]['damage'];
             if(npcs[npc]['stats']['health'] <= 0){
                 npcs.splice(
                   npc,
@@ -524,6 +524,7 @@ function setmode(newmode, newgame){
             'bolt': {
               'cost': 1,
               'current': 10,
+              'damage': 1,
               'reload': 10,
             },
           },
