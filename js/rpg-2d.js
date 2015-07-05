@@ -297,6 +297,7 @@ function logic(){
     player['x'] += player_dx;
     player['y'] += player_dy;
 
+    // Fire player spells.
     if(player['spellbook'][player['selected']]['current'] >= player['spellbook'][player['selected']]['reload']){
        if(mouse_lock_x > -1
           && player['stats']['mana']['current'] >= player['spellbook'][player['selected']]['cost']){
@@ -319,8 +320,8 @@ function logic(){
               'color': '#f00',
               'dx': (mouse_x > x ? j[0] : -j[0]),
               'dy': (mouse_y > y ? j[1] : -j[1]),
-              'lifespan': 100,
-              'owner': 0,
+              'lifespan': player['spellbook'][player['selected']]['lifespan'],
+              'owner': -1,
               'x': player['x'],
               'y': player['y'],
             });
@@ -330,12 +331,17 @@ function logic(){
         player['spellbook'][player['selected']]['current'] += 1;
     }
 
+    // Handle NPCs.
     for(var npc in npcs){
         if(Object.keys(npcs[npc]['spellbook']).length == 0){
             continue;
         }
 
+        npcs[npc]['spellbook']['bolt']['current'] += 1;
+
         if(npcs[npc]['spellbook']['bolt']['current'] >= npcs[npc]['spellbook']['bolt']['reload']){
+            npcs[npc]['spellbook']['bolt']['current'] = 0;
+
             // Calculate particle movement...
             var j = m(
               npcs[npc]['x'],
@@ -344,19 +350,16 @@ function logic(){
               player['y']
             );
 
-            // ...and add particle with movement pattern, tied to player.
+            // ...and add particle with movement pattern, tied to the NPC.
             particles.push({
               'color': '#f00',
               'dx': (player['x'] > npcs[npc]['x'] ? j[0] : -j[0]),
               'dy': (player['y'] > npcs[npc]['y'] ? j[1] : -j[1]),
-              'lifespan': 50,
-              'owner': 1,
+              'lifespan': npcs[npc]['spellbook']['bolt']['lifespan'],
+              'owner': npc,
               'x': npcs[npc]['x'],
               'y': npcs[npc]['y'],
             });
-
-        }else{
-            npcs[npc]['spellbook']['bolt']['current'] += 1;
         }
     }
 
@@ -391,7 +394,7 @@ function logic(){
         }
 
         // Handle particles not owned by player.
-        if(particles[particle]['owner'] > 0){
+        if(particles[particle]['owner'] > -1){
             if(particles[particle]['x'] > player['x'] - 17
               && particles[particle]['x'] < player['x'] + 17
               && particles[particle]['y'] > player['y'] - 17
@@ -404,7 +407,7 @@ function logic(){
                 player['stats']['health']['current'] -= npcs[npc]['spellbook']['bolt']['damage'];
             }
 
-            return;
+            continue;
         }
 
         // Handle particles owned by player.
@@ -564,6 +567,7 @@ function setmode(newmode, newgame){
               'cost': 1,
               'current': 10,
               'damage': 1,
+              'lifespan': 100,
               'reload': 10,
             },
           },
@@ -627,9 +631,9 @@ function setmode(newmode, newgame){
         create_npc({
           'spellbook': {
             'bolt': {
-              'cost': 1,
               'current': 0,
               'damage': 1,
+              'lifespan': 50,
               'reload': 10,
             },
           },
