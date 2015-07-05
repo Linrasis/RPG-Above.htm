@@ -8,6 +8,11 @@ function create_npc(properties){
     properties['x'] = properties['x'] || 0;
     properties['y'] = properties['y'] || 0;
 
+    properties['stats'] = properties['stats'] || {};
+      properties['stats']['health'] = properties['stats']['health'] || {};
+        properties['stats']['health']['current'] = properties['stats']['health']['current'] || 1;
+        properties['stats']['health']['max'] = properties['stats']['health']['max'] || 1;
+
     npcs.push(properties);
 }
 
@@ -587,7 +592,10 @@ function setmode(newmode, newgame){
         });
         create_npc({
           'stats': {
-            'health': 10,
+            'health': {
+              'current': 10,
+              'max': 10,
+            },
           },
           'x': 200,
           'y': -100,
