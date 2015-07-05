@@ -183,16 +183,19 @@ function draw(){
 
     // Draw game over messages.
     if(!game_running){
+        buffer.font = '23pt sans-serif';
         buffer.fillText(
           'ESC = Main Menu',
-          5,
+          x,
           175
         );
 
+        buffer.fillStyle = '#f00';
+        buffer.font = '42pt sans-serif';
         buffer.fillText(
           'YOU ARE DEAD',
-          5,
-          200
+          x,
+          220
         );
     }
 
@@ -406,6 +409,9 @@ function logic(){
                 );
 
                 player['stats']['health']['current'] -= npcs[npc]['spellbook'][npcs[npc]['selected']]['damage'];
+                if(player['stats']['health']['current'] <= 0){
+                    game_running = false;
+                }
             }
 
             continue;
