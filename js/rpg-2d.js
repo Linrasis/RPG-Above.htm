@@ -13,6 +13,8 @@ function create_npc(properties){
         properties['stats']['health']['current'] = properties['stats']['health']['current'] || 1;
         properties['stats']['health']['max'] = properties['stats']['health']['max'] || 1;
 
+    properties['spellbook'] = properties['spellbook'] || {};
+
     npcs.push(properties);
 }
 
@@ -216,7 +218,7 @@ function logic(){
     // Regenerate player health and mana.
     if(player['stats']['health']['current'] < player['stats']['health']['max']){
         player['stats']['health']['regeneration']['current'] += 1;
-        if(player['stats']['health']['regen']['current'] >= player['stats']['health']['regeneration']['max']){
+        if(player['stats']['health']['regeneration']['current'] >= player['stats']['health']['regeneration']['max']){
             player['stats']['health']['current'] += 1;
             player['stats']['health']['regeneration']['current'] = 0;
         }
@@ -250,7 +252,7 @@ function logic(){
         player_dy -= 2;
     }
 
-    // Check for player collision with foreground obstacles.
+    // Check for player collision with dyanmic world objects.
     for(var object in world_dynamic){
         if(player['x'] + player_dx - 17 > world_dynamic[object]['x'] + world_dynamic[object]['width']
           || player['x'] + player_dx + 17 < world_dynamic[object]['x']
@@ -328,6 +330,36 @@ function logic(){
         player['spellbook'][player['selected']]['current'] += 1;
     }
 
+    for(var npc in npcs){
+        if(Object.keys(npcs[npc]['spellbook']).length == 0){
+            continue;
+        }
+
+        if(npcs[npc]['spellbook']['bolt']['current'] >= npcs[npc]['spellbook']['bolt']['reload']){
+            // Calculate particle movement...
+            var j = m(
+              npcs[npc]['x'],
+              npcs[npc]['y'],
+              player['x'],
+              player['y']
+            );
+
+            // ...and add particle with movement pattern, tied to player.
+            particles.push({
+              'color': '#f00',
+              'dx': (player['x'] > npcs[npc]['x'] ? j[0] : -j[0]),
+              'dy': (player['y'] > npcs[npc]['y'] ? j[1] : -j[1]),
+              'lifespan': 50,
+              'owner': 1,
+              'x': npcs[npc]['x'],
+              'y': npcs[npc]['y'],
+            });
+
+        }else{
+            npcs[npc]['spellbook']['bolt']['current'] += 1;
+        }
+    }
+
     // Handle particles.
     for(var particle in particles){
         particles[particle]['x'] += 5 * particles[particle]['dx'];
@@ -368,6 +400,8 @@ function logic(){
                   particle,
                   1
                 );
+
+                player['stats']['health']['current'] -= npcs[npc]['spellbook']['bolt']['damage'];
             }
 
             return;
@@ -591,6 +625,14 @@ function setmode(newmode, newgame){
           'y': 100,
         });
         create_npc({
+          'spellbook': {
+            'bolt': {
+              'cost': 1,
+              'current': 0,
+              'damage': 1,
+              'reload': 10,
+            },
+          },
           'stats': {
             'health': {
               'current': 10,
