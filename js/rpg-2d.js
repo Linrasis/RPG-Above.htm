@@ -561,7 +561,7 @@ function setmode(newmode, newgame){
 
         // If it's a newgame from the main menu, setup canvas and buffers.
         if(newgame){
-            document.getElementById('page').innerHTML = '<canvas id=canvas></canvas><canvas id=buffer style=display:none></canvas>';
+            document.getElementById('page').innerHTML = '<canvas id=canvas oncontextmenu="return false"></canvas><canvas id=buffer style=display:none></canvas>';
 
             buffer = document.getElementById('buffer').getContext('2d');
             canvas = document.getElementById('canvas').getContext('2d');
