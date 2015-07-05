@@ -1,3 +1,16 @@
+function create_npc(properties){
+    properties = properties || {};
+
+    properties['color'] = properties['color'] || '#fff';
+    properties['friendly'] = properties['friendly'] || false;
+    properties['height'] = properties['height'] || 20;
+    properties['width'] = properties['width'] || 20;
+    properties['x'] = properties['x'] || 0;
+    properties['y'] = properties['y'] || 0;
+
+    npcs.push(properties);
+}
+
 function draw(){
     buffer.clearRect(
       0,
@@ -55,8 +68,8 @@ function draw(){
     for(var particle in particles){
         buffer.fillStyle = particles[particle]['color'];
         buffer.fillRect(
-          particles[particle]['x'],
-          particles[particle]['y'],
+          particles[particle]['x'] - 5,
+          particles[particle]['y'] - 5,
           10,
           10
         );
@@ -566,21 +579,15 @@ function setmode(newmode, newgame){
           'y': -250,
         });
 
-        npcs.push({
-          'color': '#fff',
+        create_npc({
           'friendly': true,
-          'height': 20,
-          'width': 20,
           'x': -200,
           'y': 100,
-        },{
-          'color': '#fff',
-          'friendly': false,
-          'height': 20,
+        });
+        create_npc({
           'stats': {
             'health': 10,
           },
-          'width': 20,
           'x': 200,
           'y': -100,
         });
