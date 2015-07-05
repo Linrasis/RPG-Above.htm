@@ -425,8 +425,8 @@ function logic(){
               1
             );
 
-            npcs[npc]['stats']['health'] -= player['spellbook'][player['selected']]['damage'];
-            if(npcs[npc]['stats']['health'] <= 0){
+            npcs[npc]['stats']['health']['current'] -= player['spellbook'][player['selected']]['damage'];
+            if(npcs[npc]['stats']['health']['current'] <= 0){
                 npcs.splice(
                   npc,
                   1
