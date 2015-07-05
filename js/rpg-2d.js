@@ -577,7 +577,7 @@ function setmode(newmode, newgame){
               'max': 100,
               'regeneration': {
                 'current': 0,
-                'max': 100,
+                'max': 1000,
               },
             },
             'mana': {
