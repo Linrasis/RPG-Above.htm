@@ -1,3 +1,5 @@
+'use strict';
+
 function create_npc(properties){
     properties = properties || {};
 
@@ -236,8 +238,8 @@ function logic(){
         }
     }
 
-    player_dx = 0;
-    player_dy = 0;
+    var player_dx = 0;
+    var player_dy = 0;
 
     // Add player key movments to dx and dy, if still within level boundaries.
     if(key_left){
