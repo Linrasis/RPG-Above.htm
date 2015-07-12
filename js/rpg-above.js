@@ -237,6 +237,14 @@ function draw(){
     animationFrame = window.requestAnimationFrame(draw);
 }
 
+function get_movement_speed(x0, y0, x1, y1){
+    var angle = Math.atan(Math.abs(y0 - y1) / Math.abs(x0 - x1));
+    return [
+      Math.cos(angle),
+      Math.sin(angle),
+    ];
+}
+
 function logic(){
     if(!game_running){
         return;
@@ -348,7 +356,7 @@ function logic(){
             );
 
             // Calculate particle movement...
-            var j = m(
+            var speeds = get_movement_speed(
               player['x'],
               player['y'],
               player['x'] + mouse_x - x,
@@ -358,8 +366,8 @@ function logic(){
             // ...and add particle with movement pattern, tied to player.
             particles.push({
               'color': '#f00',
-              'dx': (mouse_x > x ? j[0] : -j[0]),
-              'dy': (mouse_y > y ? j[1] : -j[1]),
+              'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
+              'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
               'lifespan': player['spellbook'][player['selected']]['lifespan'],
               'owner': -1,
               'x': player['x'],
@@ -383,7 +391,7 @@ function logic(){
             npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] = 0;
 
             // Calculate particle movement...
-            var j = m(
+            var speeds = get_movement_speed(
               npcs[npc]['x'],
               npcs[npc]['y'],
               player['x'],
@@ -393,8 +401,8 @@ function logic(){
             // ...and add particle with movement pattern, tied to the NPC.
             particles.push({
               'color': '#f00',
-              'dx': (player['x'] > npcs[npc]['x'] ? j[0] : -j[0]),
-              'dy': (player['y'] > npcs[npc]['y'] ? j[1] : -j[1]),
+              'dx': (player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0]),
+              'dy': (player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1]),
               'lifespan': npcs[npc]['spellbook'][npcs[npc]['selected']]['lifespan'],
               'owner': npc,
               'x': npcs[npc]['x'],
@@ -475,21 +483,6 @@ function logic(){
 
             break;
         }
-    }
-}
-
-function m(x0,y0,x1,y1){
-    var j0 = Math.abs(x0 - x1);
-    var j1 = Math.abs(y0 - y1);
-
-    if(j0 > j1){
-        return [1, j1 / j0];
-
-    }else if(j1 > j0){
-        return [j0 / j1, 1];
-
-    }else{
-        return [.5, .5];
     }
 }
 
