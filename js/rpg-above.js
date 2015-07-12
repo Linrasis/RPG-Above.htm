@@ -21,6 +21,27 @@ function create_npc(properties){
     npcs.push(properties);
 }
 
+function create_world_dynamic(properties){
+    properties = properties || {};
+
+    properties['collision'] = properties['collision'] == undefined;
+    properties['color'] = properties['color'] || '#fff';
+    properties['damage'] = properties['damage'] || 0;
+    properties['height'] = properties['height'] || 100;
+    properties['width'] = properties['width'] || 100;
+    properties['x'] = properties['x'] || 0;
+    properties['y'] = properties['y'] || 0;
+
+    world_dynamic.push(properties);
+}
+
+function damage_player(damage){
+    player['stats']['health']['current'] -= damage;
+    if(player['stats']['health']['current'] <= 0){
+        game_running = false;
+    }
+}
+
 function draw(){
     buffer.clearRect(
       0,
@@ -260,10 +281,23 @@ function logic(){
 
     // Check for player collision with dyanmic world objects.
     for(var object in world_dynamic){
+        if(world_dynamic[object]['damage'] == 0
+          && !world_dynamic[object]['collision']){
+            continue;
+        }
+
         if(player['x'] + player_dx - 17 > world_dynamic[object]['x'] + world_dynamic[object]['width']
           || player['x'] + player_dx + 17 < world_dynamic[object]['x']
           || player['y'] + player_dy - 17 > world_dynamic[object]['y'] + world_dynamic[object]['height']
           || player['y'] + player_dy + 17 < world_dynamic[object]['y']){
+            continue;
+        }
+
+        if(world_dynamic[object]['damage'] > 0){
+            damage_player(world_dynamic[object]['damage']);
+        }
+
+        if(!world_dynamic[object]['collision']){
             continue;
         }
 
@@ -410,10 +444,7 @@ function logic(){
                   1
                 );
 
-                player['stats']['health']['current'] -= npcs[npc]['spellbook'][npcs[npc]['selected']]['damage'];
-                if(player['stats']['health']['current'] <= 0){
-                    game_running = false;
-                }
+                damage_player(npcs[npc]['spellbook'][npcs[npc]['selected']]['damage']);
             }
 
             continue;
@@ -616,13 +647,21 @@ function setmode(newmode, newgame){
             resize();
         }
 
-        world_dynamic.push({
-          'collision': true,
+        create_world_dynamic({
           'color': '#222',
           'height': 100,
           'width': 25,
           'x': -150,
           'y': -150,
+        });
+        create_world_dynamic({
+          'collision': false,
+          'color': '#700',
+          'damage': 1,
+          'height': 50,
+          'width': 50,
+          'x': 150,
+          'y': 150,
         });
         world_static.push({
           'color': '#333',
