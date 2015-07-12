@@ -509,13 +509,13 @@ function save(){
     for(var id in ids){
         if(isNaN(document.getElementById(id).value)
           || document.getElementById(id).value == ids[id]){
-            window.localStorage.removeItem('RPG-2D.htm-' + id);
+            window.localStorage.removeItem('RPG-Above.htm-' + id);
             settings[id] = ids[id];
 
         }else{
             settings[id] = parseFloat(document.getElementById(id).value);
             window.localStorage.setItem(
-              'RPG-2D.htm-' + id,
+              'RPG-Above.htm-' + id,
               settings[id]
             );
         }
@@ -527,13 +527,13 @@ function save(){
     };
     for(id in ids){
         if(document.getElementById(id).value === ids[id]){
-            window.localStorage.removeItem('RPG-2D.htm-' + id);
+            window.localStorage.removeItem('RPG-Above.htm-' + id);
             settings[id] = ids[id];
 
         }else{
             settings[id] = document.getElementById(id).value;
             window.localStorage.setItem(
-              'RPG-2D.htm-' + id,
+              'RPG-Above.htm-' + id,
               settings[id]
             );
         }
@@ -696,13 +696,13 @@ var npcs = [];
 var particles = [];
 var player = {};
 var settings = {
-  'audio-volume': window.localStorage.getItem('RPG-2D.htm-audio-volume') != null
-    ? parseFloat(window.localStorage.getItem('RPG-2D.htm-audio-volume'))
+  'audio-volume': window.localStorage.getItem('RPG-Above.htm-audio-volume') != null
+    ? parseFloat(window.localStorage.getItem('RPG-Above.htm-audio-volume'))
     : 1,
-  'color': window.localStorage.getItem('RPG-2D.htm-color') || '#009900',
-  'movement-keys': window.localStorage.getItem('RPG-2D.htm-movement-keys') || 'WASD',
-  'ms-per-frame': parseInt(window.localStorage.getItem('RPG-2D.htm-ms-per-frame')) || 25,
-  'restart-key': window.localStorage.getItem('RPG-2D.htm-restart-key') || 'H',
+  'color': window.localStorage.getItem('RPG-Above.htm-color') || '#009900',
+  'movement-keys': window.localStorage.getItem('RPG-Above.htm-movement-keys') || 'WASD',
+  'ms-per-frame': parseInt(window.localStorage.getItem('RPG-Above.htm-ms-per-frame')) || 25,
+  'restart-key': window.localStorage.getItem('RPG-Above.htm-restart-key') || 'H',
 };
 var x = 0;
 var width = 0;
