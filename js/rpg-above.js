@@ -15,7 +15,7 @@ function create_npc(properties){
         properties['stats']['health']['current'] = properties['stats']['health']['current'] || 1;
         properties['stats']['health']['max'] = properties['stats']['health']['max'] || 1;
 
-    properties['selected'] = properties['selected'] || void(0);
+    properties['selected'] = properties['selected'] || void 0;
     properties['spellbook'] = properties['spellbook'] || {};
 
     npcs.push(properties);
@@ -24,7 +24,7 @@ function create_npc(properties){
 function create_world_dynamic(properties){
     properties = properties || {};
 
-    properties['collision'] = properties['collision'] == void(0);
+    properties['collision'] = properties['collision'] == void 0;
     properties['color'] = properties['color'] || '#fff';
     properties['damage'] = properties['damage'] || 0;
     properties['height'] = properties['height'] || 100;
@@ -381,7 +381,7 @@ function logic(){
 
     // Handle NPCs.
     for(var npc in npcs){
-        if(npcs[npc]['selected'] == void(0)){
+        if(npcs[npc]['selected'] == void 0){
             continue;
         }
 
@@ -585,13 +585,13 @@ function setmode(newmode, newgame){
 
         player = {
           'equipment': {
-            'feet': void(0),
-            'head': void(0),
-            'off-hand': void(0),
-            'legs': void(0),
-            'main-hand': void(0),
-            'neck': void(0),
-            'torso': void(0),
+            'feet': void 0,
+            'head': void 0,
+            'off-hand': void 0,
+            'legs': void 0,
+            'main-hand': void 0,
+            'neck': void 0,
+            'torso': void 0,
           },
           'inventory': [],
           'selected': 'bolt',
