@@ -26,20 +26,14 @@ function create_world_dynamic(properties){
 
     properties['collision'] = properties['collision'] == void 0;
     properties['color'] = properties['color'] || '#fff';
-    properties['damage'] = properties['damage'] || 0;
+    properties['effect'] = properties['effect'] || {};
+    properties['effect-stat'] = properties['effect-stat'] || 'health';
     properties['height'] = properties['height'] || 100;
     properties['width'] = properties['width'] || 100;
     properties['x'] = properties['x'] || 0;
     properties['y'] = properties['y'] || 0;
 
     world_dynamic.push(properties);
-}
-
-function damage_player(damage){
-    player['stats']['health']['current'] -= damage;
-    if(player['stats']['health']['current'] <= 0){
-        game_running = false;
-    }
 }
 
 function draw(){
@@ -237,6 +231,13 @@ function draw(){
     animationFrame = window.requestAnimationFrame(draw);
 }
 
+function effect_player(stat, effect){
+    player['stats'][stat]['current'] -= effect;
+    if(player['stats'][stat]['current'] <= 0){
+        player['stats'][stat]['current'] = 0;
+    }
+}
+
 function get_movement_speed(x0, y0, x1, y1){
     var angle = Math.atan(Math.abs(y0 - y1) / Math.abs(x0 - x1));
     return [
@@ -248,6 +249,10 @@ function get_movement_speed(x0, y0, x1, y1){
 function logic(){
     if(!game_running){
         return;
+    }
+
+    if(player['stats']['health']['current'] <= 0){
+        game_running = false;
     }
 
     // Regenerate player health and mana.
@@ -301,7 +306,7 @@ function logic(){
 
     // Check for player collision with dyanmic world objects.
     for(var object in world_dynamic){
-        if(world_dynamic[object]['damage'] == 0
+        if(world_dynamic[object]['effect'] == 0
           && !world_dynamic[object]['collision']){
             continue;
         }
@@ -313,8 +318,11 @@ function logic(){
             continue;
         }
 
-        if(world_dynamic[object]['damage'] > 0){
-            damage_player(world_dynamic[object]['damage']);
+        if(world_dynamic[object]['effect'] > 0){
+            effect_player(
+              world_dynamic[object]['effect-stat'],
+              world_dynamic[object]['effect']
+            );
         }
 
         if(!world_dynamic[object]['collision']){
@@ -464,7 +472,10 @@ function logic(){
                   1
                 );
 
-                damage_player(npcs[npc]['spellbook'][npcs[npc]['selected']]['damage']);
+                effect_player(
+                  'health',
+                  npcs[npc]['spellbook'][npcs[npc]['selected']]['damage']
+                );
             }
 
             continue;
@@ -662,10 +673,20 @@ function setmode(newmode, newgame){
         create_world_dynamic({
           'collision': false,
           'color': '#700',
-          'damage': 1,
+          'effect': 1,
           'height': 50,
           'width': 50,
           'x': 150,
+          'y': 150,
+        });
+        create_world_dynamic({
+          'collision': false,
+          'color': '#66f',
+          'effect': 1,
+          'effect-stat': 'mana',
+          'height': 50,
+          'width': 50,
+          'x': 100,
           'y': 150,
         });
         world_static.push({
