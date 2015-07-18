@@ -649,10 +649,6 @@ function setmode(newmode, newgame){
           'y': 0,
         };
 
-        // Reset keypresses.
-        key_left = false;
-        key_right = false;
-
         // If it's a newgame from the main menu, setup canvas and buffers.
         if(newgame){
             document.getElementById('page').innerHTML = '<canvas id=canvas oncontextmenu="return false"></canvas><canvas id=buffer></canvas>';
@@ -767,7 +763,6 @@ var settings = {
   'color': window.localStorage.getItem('RPG-Above.htm-color') || '#009900',
   'movement-keys': window.localStorage.getItem('RPG-Above.htm-movement-keys') || 'WASD',
   'ms-per-frame': parseInt(window.localStorage.getItem('RPG-Above.htm-ms-per-frame')) || 25,
-  'restart-key': window.localStorage.getItem('RPG-Above.htm-restart-key') || 'H',
 };
 var x = 0;
 var width = 0;
@@ -804,13 +799,6 @@ window.onkeydown = function(e){
 
     }else if(key === settings['movement-keys'][3]){
         key_right = true;
-
-    }else if(key === settings['restart-key']){
-        update_best();
-        setmode(
-          mode,
-          false
-        );
     }
 };
 
