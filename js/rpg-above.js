@@ -198,24 +198,6 @@ function draw(){
       175
     );
 
-    // Draw game over messages.
-    if(!game_running){
-        buffer.font = '23pt sans-serif';
-        buffer.fillText(
-          'ESC = Main Menu',
-          x,
-          175
-        );
-
-        buffer.fillStyle = '#f00';
-        buffer.font = '42pt sans-serif';
-        buffer.fillText(
-          'YOU ARE DEAD',
-          x,
-          220
-        );
-    }
-
     buffer.textAlign = 'left';
     for(var spell in player['spellbar']){
         buffer.fillText(
@@ -228,6 +210,25 @@ function draw(){
             ),
           0,
           250 + 25 * parseInt(spell)
+        );
+    }
+
+    // Draw game over messages.
+    if(!game_running){
+        buffer.font = '23pt sans-serif';
+        buffer.textAlign = 'center';
+        buffer.fillText(
+          'ESC = Main Menu',
+          x,
+          175
+        );
+
+        buffer.fillStyle = '#f00';
+        buffer.font = '42pt sans-serif';
+        buffer.fillText(
+          'YOU ARE DEAD',
+          x,
+          220
         );
     }
 
