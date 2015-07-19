@@ -5,8 +5,10 @@ RPG-Above.htm
 
 ---
 
-Action              | Key
---------------------|------------
-Cast Selected Spell | Mouse Click
-Move Player         | WASD
-Return to Main Menu | ESC
+Action                | Key
+----------------------|------------
+Cast Selected Spell   | Mouse Click
+Move Player           | WASD
+Return to Main Menu   | ESC
+Scroll through Spells | Mouse Wheel
+Select Spell          | 0 - 9
