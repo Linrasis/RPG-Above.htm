@@ -427,10 +427,17 @@ function logic(){
             continue;
         }
 
-        npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] += 1;
+        for(var spell in npcs[npc]['spellbook']){
+            if(npcs[npc]['spellbook'][spell]['current'] < npcs[npc]['spellbook'][spell]['reload']){
+                npcs[npc]['spellbook'][spell]['current'] += 1;
+                continue;
+            }
 
-        if(npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] >= npcs[npc]['spellbook'][npcs[npc]['selected']]['reload']){
-            npcs[npc]['spellbook'][npcs[npc]['selected']]['current'] = 0;
+            if(npcs[npc]['selected'] !== spell){
+                continue;
+            }
+
+            npcs[npc]['spellbook'][spell]['current'] = 0;
 
             // Calculate particle movement...
             var speeds = get_movement_speed(
@@ -442,14 +449,16 @@ function logic(){
 
             // ...and add particle with movement pattern, tied to the NPC.
             particles.push({
-              'color': npcs[npc]['spellbook'][npcs[npc]['selected']]['color'],
+              'color': npcs[npc]['spellbook'][spell]['color'],
               'dx': (player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0]),
               'dy': (player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1]),
-              'lifespan': npcs[npc]['spellbook'][npcs[npc]['selected']]['lifespan'],
+              'lifespan': npcs[npc]['spellbook'][spell]['lifespan'],
               'owner': npc,
               'x': npcs[npc]['x'],
               'y': npcs[npc]['y'],
             });
+
+            break;
         }
     }
 
