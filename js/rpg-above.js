@@ -21,6 +21,22 @@ function create_npc(properties){
     npcs.push(properties);
 }
 
+function create_particle(properties){
+    properties = properties || {};
+
+    properties['color'] = properties['color'] || '#fff';
+    properties['dx'] = properties['dx'] || 0;
+    properties['dy'] = properties['dy'] || 0;
+    properties['lifespan'] = properties['lifespan'] || 10;
+    properties['owner'] = properties['owner'] == null
+      ? -1
+      : properties['owner'];
+    properties['x'] = properties['x'] || 0;
+    properties['y'] = properties['y'] || 0;
+
+    particles.push(properties);
+}
+
 function create_player(properties){
     properties = properties || {};
 
@@ -444,12 +460,11 @@ function logic(){
         );
 
         // ...and add particle with movement pattern, tied to player.
-        particles.push({
+        create_particle({
           'color': player['spellbook'][selected]['color'],
           'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
           'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
           'lifespan': player['spellbook'][selected]['lifespan'],
-          'owner': -1,
           'x': player['x'],
           'y': player['y'],
         });
@@ -482,7 +497,7 @@ function logic(){
             );
 
             // ...and add particle with movement pattern, tied to the NPC.
-            particles.push({
+            create_particle({
               'color': npcs[npc]['spellbook'][spell]['color'],
               'dx': (player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0]),
               'dy': (player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1]),
