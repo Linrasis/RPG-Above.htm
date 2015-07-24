@@ -44,6 +44,7 @@ function load_level(id){
       'selected': 'bolt',
       'spellbook': {
         'bolt': {
+          'color': '#f00',
           'current': 0,
           'damage': 1,
           'lifespan': 50,

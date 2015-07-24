@@ -409,7 +409,7 @@ function logic(){
 
         // ...and add particle with movement pattern, tied to player.
         particles.push({
-          'color': '#f00',
+          'color': player['spellbook'][player['spellbar'][player['selected']]]['color'],
           'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
           'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
           'lifespan': player['spellbook'][player['spellbar'][player['selected']]]['lifespan'],
@@ -440,7 +440,7 @@ function logic(){
 
             // ...and add particle with movement pattern, tied to the NPC.
             particles.push({
-              'color': '#f00',
+              'color': npcs[npc]['spellbook'][npcs[npc]['selected']]['color'],
               'dx': (player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0]),
               'dy': (player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1]),
               'lifespan': npcs[npc]['spellbook'][npcs[npc]['selected']]['lifespan'],
@@ -669,6 +669,7 @@ function setmode(newmode, newgame){
           },
           'spellbook': {
             'bolt': {
+              'color': '#00f',
               'cost': 1,
               'current': 10,
               'damage': 1,
