@@ -381,38 +381,42 @@ function logic(){
     player['x'] += player_dx;
     player['y'] += player_dy;
 
-    // Fire player spells.
-    if(player['spellbook'][player['spellbar'][player['selected']]]['current'] >= player['spellbook'][player['spellbar'][player['selected']]]['reload']){
-       if(mouse_lock_x > -1
-          && player['stats']['mana']['current'] >= player['spellbook'][player['spellbar'][player['selected']]]['cost']){
-            player['spellbook'][player['spellbar'][player['selected']]]['current'] = 0;
-            player['stats']['mana']['current'] = Math.max(
-              player['stats']['mana']['current'] - player['spellbook'][player['spellbar'][player['selected']]]['cost'],
-              0
-            );
-
-            // Calculate particle movement...
-            var speeds = get_movement_speed(
-              player['x'],
-              player['y'],
-              player['x'] + mouse_x - x,
-              player['y'] + mouse_y - y
-            );
-
-            // ...and add particle with movement pattern, tied to player.
-            particles.push({
-              'color': '#f00',
-              'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
-              'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
-              'lifespan': player['spellbook'][player['spellbar'][player['selected']]]['lifespan'],
-              'owner': -1,
-              'x': player['x'],
-              'y': player['y'],
-            });
+    // Update player spells.
+    for(var spell in player['spellbook']){
+        if(player['spellbook'][spell]['current'] < player['spellbook'][spell]['reload']){
+            player['spellbook'][spell]['current'] += 1;
         }
+    }
 
-    }else{
-        player['spellbook'][player['spellbar'][player['selected']]]['current'] += 1;
+    // Check if player wants to fire selected spell
+    //   and fire it if they do and it can be fired.
+    if(mouse_lock_x > -1
+      && player['spellbook'][player['spellbar'][player['selected']]]['current'] >= player['spellbook'][player['spellbar'][player['selected']]]['reload']
+      && player['stats']['mana']['current'] >= player['spellbook'][player['spellbar'][player['selected']]]['cost']){
+        player['spellbook'][player['spellbar'][player['selected']]]['current'] = 0;
+        player['stats']['mana']['current'] = Math.max(
+          player['stats']['mana']['current'] - player['spellbook'][player['spellbar'][player['selected']]]['cost'],
+          0
+        );
+
+        // Calculate particle movement...
+        var speeds = get_movement_speed(
+          player['x'],
+          player['y'],
+          player['x'] + mouse_x - x,
+          player['y'] + mouse_y - y
+        );
+
+        // ...and add particle with movement pattern, tied to player.
+        particles.push({
+          'color': '#f00',
+          'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
+          'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
+          'lifespan': player['spellbook'][player['spellbar'][player['selected']]]['lifespan'],
+          'owner': -1,
+          'x': player['x'],
+          'y': player['y'],
+        });
     }
 
     // Handle NPCs.
