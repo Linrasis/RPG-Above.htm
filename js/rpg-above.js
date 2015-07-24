@@ -25,6 +25,7 @@ function create_particle(properties){
     properties = properties || {};
 
     properties['color'] = properties['color'] || '#fff';
+    properties['damage'] = properties['damage'] || 1;
     properties['dx'] = properties['dx'] || 0;
     properties['dy'] = properties['dy'] || 0;
     properties['lifespan'] = properties['lifespan'] || 10;
@@ -462,6 +463,7 @@ function logic(){
         // ...and add particle with movement pattern, tied to player.
         create_particle({
           'color': player['spellbook'][selected]['color'],
+          'damage': player['spellbook'][selected]['damage'],
           'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
           'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
           'lifespan': player['spellbook'][selected]['lifespan'],
@@ -499,6 +501,7 @@ function logic(){
             // ...and add particle with movement pattern, tied to the NPC.
             create_particle({
               'color': npcs[npc]['spellbook'][spell]['color'],
+              'damage': npcs[npc]['spellbook'][spell]['damage'],
               'dx': (player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0]),
               'dy': (player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1]),
               'lifespan': npcs[npc]['spellbook'][spell]['lifespan'],
@@ -547,14 +550,14 @@ function logic(){
               && particles[particle]['x'] < player['x'] + 17
               && particles[particle]['y'] > player['y'] - 17
               && particles[particle]['y'] < player['y'] + 17){
+                effect_player(
+                  'health',
+                  particles[particle]['damage']
+                );
+
                 particles.splice(
                   particle,
                   1
-                );
-
-                effect_player(
-                  'health',
-                  npcs[npc]['spellbook'][npcs[npc]['selected']]['damage']
                 );
             }
 
@@ -571,18 +574,18 @@ function logic(){
                 continue;
             }
 
-            particles.splice(
-              particle,
-              1
-            );
-
-            npcs[npc]['stats']['health']['current'] -= player['spellbook'][selected]['damage'];
+            npcs[npc]['stats']['health']['current'] -= particles[particle]['damage'];
             if(npcs[npc]['stats']['health']['current'] <= 0){
                 npcs.splice(
                   npc,
                   1
                 );
             }
+
+            particles.splice(
+              particle,
+              1
+            );
 
             break;
         }
