@@ -390,12 +390,14 @@ function logic(){
 
     // Check if player wants to fire selected spell
     //   and fire it if they do and it can be fired.
+    var selected = player['spellbar'][player['selected']];
+
     if(mouse_lock_x > -1
-      && player['spellbook'][player['spellbar'][player['selected']]]['current'] >= player['spellbook'][player['spellbar'][player['selected']]]['reload']
-      && player['stats']['mana']['current'] >= player['spellbook'][player['spellbar'][player['selected']]]['cost']){
-        player['spellbook'][player['spellbar'][player['selected']]]['current'] = 0;
+      && player['spellbook'][selected]['current'] >= player['spellbook'][selected]['reload']
+      && player['stats']['mana']['current'] >= player['spellbook'][selected]['cost']){
+        player['spellbook'][selected]['current'] = 0;
         player['stats']['mana']['current'] = Math.max(
-          player['stats']['mana']['current'] - player['spellbook'][player['spellbar'][player['selected']]]['cost'],
+          player['stats']['mana']['current'] - player['spellbook'][selected]['cost'],
           0
         );
 
@@ -409,10 +411,10 @@ function logic(){
 
         // ...and add particle with movement pattern, tied to player.
         particles.push({
-          'color': player['spellbook'][player['spellbar'][player['selected']]]['color'],
+          'color': player['spellbook'][selected]['color'],
           'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
           'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
-          'lifespan': player['spellbook'][player['spellbar'][player['selected']]]['lifespan'],
+          'lifespan': player['spellbook'][selected]['lifespan'],
           'owner': -1,
           'x': player['x'],
           'y': player['y'],
@@ -516,7 +518,7 @@ function logic(){
               1
             );
 
-            npcs[npc]['stats']['health']['current'] -= player['spellbook'][player['spellbar'][player['selected']]]['damage'];
+            npcs[npc]['stats']['health']['current'] -= player['spellbook'][selected]['damage'];
             if(npcs[npc]['stats']['health']['current'] <= 0){
                 npcs.splice(
                   npc,
