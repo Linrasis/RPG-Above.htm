@@ -1,18 +1,7 @@
 'use strict';
 
 function load_level(id){
-    player = {
-      'equipment': {
-        'feet': void 0,
-        'head': void 0,
-        'off-hand': void 0,
-        'legs': void 0,
-        'main-hand': void 0,
-        'neck': void 0,
-        'torso': void 0,
-      },
-      'inventory': [],
-      'selected': 0,
+    create_player({
       'spellbar': {
         0: 'bolt',
         1: 'bolt',
@@ -53,10 +42,7 @@ function load_level(id){
           },
         },
       },
-      'x': 0,
-      'y': 0,
-      'y-velocity': 0,
-    };
+    });
 
     create_world_dynamic({
       'color': '#222',

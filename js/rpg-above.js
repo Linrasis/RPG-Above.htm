@@ -21,6 +21,40 @@ function create_npc(properties){
     npcs.push(properties);
 }
 
+function create_player(properties){
+    properties = properties || {};
+
+    properties['equipment'] = properties['equipment'] || {
+      'feet': void 0,
+      'head': void 0,
+      'off-hand': void 0,
+      'legs': void 0,
+      'main-hand': void 0,
+      'neck': void 0,
+      'torso': void 0,
+    };
+    properties['inventory'] = properties['inventory'] || [];
+    properties['selected'] = properties['selected'] || 0;
+    properties['spellbar'] = properties['spellbar'] || {
+      0: void 0,
+      1: void 0,
+      2: void 0,
+      3: void 0,
+      4: void 0,
+      5: void 0,
+      6: void 0,
+      7: void 0,
+      8: void 0,
+      9: void 0,
+    };
+    properties['spellbook'] = properties['spellbook'] || {};
+    properties['stats'] = properties['stats'] || {};
+    properties['x'] = properties['x'] || 0;
+    properties['y'] = properties['y'] || 0;
+
+    player = properties;
+}
+
 function create_world_dynamic(properties){
     properties = properties || {};
 
