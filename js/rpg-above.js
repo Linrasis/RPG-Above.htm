@@ -255,7 +255,7 @@ function draw(){
           spell
             + ': '
             + player['spellbar'][spell]
-            + (spell == player['selected']
+            + (spell === player['selected']
               ? ', selected'
               : ''
             ),
@@ -373,7 +373,7 @@ function logic(){
 
     // Check for player collision with dyanmic world objects.
     for(var object in world_dynamic){
-        if(world_dynamic[object]['effect'] == 0
+        if(world_dynamic[object]['effect'] === 0
           && !world_dynamic[object]['collision']){
             continue;
         }
