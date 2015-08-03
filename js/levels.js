@@ -19,6 +19,7 @@ function load_level(id){
           'color': '#00f',
           'cost': 1,
           'current': 10,
+          'cursor': 'crosshair',
           'damage': 1,
           'lifespan': 100,
           'reload': 10,

@@ -597,16 +597,14 @@ function mouse_wheel(e){
         return;
     }
 
-    player['selected'] += (e.wheelDelta || -e.detail) > 0
-      ? -1
-      : 1;
-
-    if(player['selected'] < 0){
-        player['selected'] = 9;
-
-    }else if(player['selected'] > 9){
-        player['selected'] = 0;
-    }
+    select_spell(
+      player['selected']
+        + (
+          (e.wheelDelta || -e.detail) > 0
+            ? -1
+            : 1
+        )
+    );
 }
 
 function play_audio(id){
@@ -687,6 +685,19 @@ function save(){
     }
 }
 
+function select_spell(id){
+    if(id < 0){
+        id = 9;
+
+    }else if(id > 9){
+        id = 0;
+    }
+
+    player['selected'] = id;
+    document.getElementById('canvas').style.cursor =
+      player['spellbook'][player['spellbar'][id]]['cursor'] || 'auto';
+}
+
 function setmode(newmode, newgame){
     window.cancelAnimationFrame(animationFrame);
     window.clearInterval(interval);
@@ -715,6 +726,7 @@ function setmode(newmode, newgame){
         }
 
         load_level(0);
+        select_spell(player['selected']);
 
         animationFrame = window.requestAnimationFrame(draw);
         interval = window.setInterval(
@@ -785,7 +797,7 @@ window.onkeydown = function(e){
 
     }else if(key > 47
       && key < 58){
-        player['selected'] = key - 48;
+        select_spell(key - 48);
         return;
     }
 
