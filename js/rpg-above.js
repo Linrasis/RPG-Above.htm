@@ -255,7 +255,7 @@ function draw(){
           spell
             + ': '
             + player['spellbar'][spell]
-            + (spell === player['selected']
+            + (spell == player['selected']
               ? ', selected'
               : ''
             ),
@@ -597,7 +597,7 @@ function mouse_wheel(e){
         return;
     }
 
-    player['selected'] += (e.wheelDelta || -e.detail > 0) > 0
+    player['selected'] += (e.wheelDelta || -e.detail) > 0
       ? -1
       : 1;
 
