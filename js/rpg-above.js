@@ -403,9 +403,8 @@ function logic(){
               && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
               && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']){
                 player_dx = 0;
-            }
 
-            if(key_right
+            }else if(key_right
               && player['y'] + player_dy + 17 > world_dynamic[object]['y']
               && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
               && player['x'] + player_dx + 17 > world_dynamic[object]['x']){
@@ -418,9 +417,8 @@ function logic(){
           && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']
           && player['y'] + player_dy + 17 > world_dynamic[object]['y']){
             player_dy = 0;
-        }
 
-        if(key_up
+        }else if(key_up
           && player['x'] + player_dx + 17 > world_dynamic[object]['x']
           && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']
           && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']){
