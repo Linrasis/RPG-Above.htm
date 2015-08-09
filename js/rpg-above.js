@@ -396,8 +396,8 @@ function logic(){
             continue;
         }
 
-        if(player['y'] != world_dynamic[object]['y'] - 18
-          && player['y'] != world_dynamic[object]['y'] + world_dynamic[object]['height'] + 18){
+        if(player['y'] > world_dynamic[object]['y'] - 17
+          && player['y'] < world_dynamic[object]['y'] + world_dynamic[object]['height'] + 17){
             if(key_left
               && player['y'] + player_dy + 17 > world_dynamic[object]['y']
               && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
