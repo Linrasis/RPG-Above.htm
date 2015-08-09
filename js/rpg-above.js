@@ -371,7 +371,7 @@ function logic(){
         }
     }
 
-    // Check for player collision with dyanmic world objects.
+    // Check for player collision with dynamic world objects.
     for(var object in world_dynamic){
         if(world_dynamic[object]['effect'] === 0
           && !world_dynamic[object]['collision']){
