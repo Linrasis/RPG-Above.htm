@@ -29,7 +29,7 @@ function create_particle(properties){
     properties['dx'] = properties['dx'] || 0;
     properties['dy'] = properties['dy'] || 0;
     properties['lifespan'] = properties['lifespan'] || 10;
-    properties['owner'] = properties['owner'] == null
+    properties['owner'] = properties['owner'] === void 0
       ? -1
       : properties['owner'];
     properties['x'] = properties['x'] || 0;
