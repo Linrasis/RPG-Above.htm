@@ -53,6 +53,20 @@ function load_level(id){
       'y': -150,
     });
     create_world_dynamic({
+      'color': '#222',
+      'height': 25,
+      'width': 100,
+      'x': -125,
+      'y': -150,
+    });
+    create_world_dynamic({
+      'color': '#222',
+      'height': 25,
+      'width': 25,
+      'x': 100,
+      'y': -75,
+    });
+    create_world_dynamic({
       'collision': false,
       'color': '#700',
       'effect': 1,
