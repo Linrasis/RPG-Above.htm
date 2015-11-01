@@ -318,10 +318,6 @@ function logic(){
         return;
     }
 
-    if(player['stats']['health']['current'] <= 0){
-        game_running = false;
-    }
-
     // Regenerate player health and mana.
     if(player['stats']['health']['current'] < player['stats']['health']['max']){
         player['stats']['health']['regeneration']['current'] += 1;
@@ -587,6 +583,10 @@ function logic(){
 
             break;
         }
+    }
+
+    if(player['stats']['health']['current'] <= 0){
+        game_running = false;
     }
 }
 
