@@ -6,7 +6,9 @@ function create_npc(properties){
     properties['color'] = properties['color'] || '#fff';
     properties['friendly'] = properties['friendly'] || false;
     properties['height'] = properties['height'] || 20;
+    properties['height-half'] = properties['height'] / 2;
     properties['width'] = properties['width'] || 20;
+    properties['width-half'] = properties['width'] / 2;
     properties['x'] = properties['x'] || 0;
     properties['y'] = properties['y'] || 0;
 
@@ -28,10 +30,14 @@ function create_particle(properties){
     properties['damage'] = properties['damage'] || 1;
     properties['dx'] = properties['dx'] || 0;
     properties['dy'] = properties['dy'] || 0;
+    properties['height'] = properties['height'] || 10;
+    properties['height-half'] = properties['height'] / 2;
     properties['lifespan'] = properties['lifespan'] || 10;
     properties['owner'] = properties['owner'] === void 0
       ? -1
       : properties['owner'];
+    properties['width'] = properties['width'] || 10;
+    properties['width-half'] = properties['width'] / 2;
     properties['x'] = properties['x'] || 0;
     properties['y'] = properties['y'] || 0;
 
@@ -133,8 +139,8 @@ function draw(){
     for(var npc in npcs){
         buffer.fillStyle = npcs[npc]['color'];
         buffer.fillRect(
-          npcs[npc]['x'] - npcs[npc]['width'] / 2,
-          npcs[npc]['y'] - npcs[npc]['height'] / 2,
+          npcs[npc]['x'] - npcs[npc]['width-half'],
+          npcs[npc]['y'] - npcs[npc]['height-half'],
           npcs[npc]['width'],
           npcs[npc]['height']
         );
@@ -144,10 +150,10 @@ function draw(){
     for(var particle in particles){
         buffer.fillStyle = particles[particle]['color'];
         buffer.fillRect(
-          particles[particle]['x'] - 5,
-          particles[particle]['y'] - 5,
-          10,
-          10
+          particles[particle]['x'] - particles[particle]['width-half'],
+          particles[particle]['y'] - particles[particle]['height-half'],
+          particles[particle]['width'],
+          particles[particle]['height']
         );
     }
 
