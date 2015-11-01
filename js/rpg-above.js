@@ -85,8 +85,8 @@ function create_world_dynamic(properties){
     properties['color'] = properties['color'] || '#fff';
     properties['effect'] = properties['effect'] || {};
     properties['effect-stat'] = properties['effect-stat'] || 'health';
-    properties['height'] = properties['height'] || 100;
-    properties['width'] = properties['width'] || 100;
+    properties['height'] = properties['height'] || 25;
+    properties['width'] = properties['width'] || 25;
     properties['x'] = properties['x'] || 0;
     properties['y'] = properties['y'] || 0;
 
@@ -452,24 +452,35 @@ function logic(){
           0
         );
 
-        // Calculate particle movement...
-        var speeds = get_movement_speed(
-          player['x'],
-          player['y'],
-          player['x'] + mouse_x - x,
-          player['y'] + mouse_y - y
-        );
+        // Handle particle-creating spells.
+        if(player['spellbook'][selected]['type'] === 'particle'){
+            var speeds = get_movement_speed(
+              player['x'],
+              player['y'],
+              player['x'] + mouse_x - x,
+              player['y'] + mouse_y - y
+            );
+            var particle = {};
+            for(var property in player['spellbook'][selected]['particle']){
+                particle[property] = player['spellbook'][selected]['particle'][property];
+            }
+            particle['dx'] = (mouse_x > x ? speeds[0] : -speeds[0]);
+            particle['dy'] = (mouse_y > y ? speeds[1] : -speeds[1]);
+            particle['x'] = player['x'];
+            particle['y'] = player['y'];
 
-        // ...and add particle with movement pattern, tied to player.
-        create_particle({
-          'color': player['spellbook'][selected]['color'],
-          'damage': player['spellbook'][selected]['damage'],
-          'dx': (mouse_x > x ? speeds[0] : -speeds[0]),
-          'dy': (mouse_y > y ? speeds[1] : -speeds[1]),
-          'lifespan': player['spellbook'][selected]['lifespan'],
-          'x': player['x'],
-          'y': player['y'],
-        });
+            create_particle(particle);
+
+        }else if(player['spellbook'][selected]['type'] === 'world-dynamic'){
+            var worlddynamic = {};
+            for(var property in player['spellbook'][selected]['world-dynamic']){
+                worlddynamic[property] = player['spellbook'][selected]['world-dynamic'][property];
+            }
+            worlddynamic['x'] = player['x'] + mouse_x - x;
+            worlddynamic['y'] = player['y'] + mouse_y - y;
+
+            create_world_dynamic(worlddynamic);
+        }
     }
 
     // Handle NPCs.

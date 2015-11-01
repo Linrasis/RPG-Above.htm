@@ -4,7 +4,7 @@ function load_level(id){
     create_player({
       'spellbar': {
         0: 'bolt',
-        1: 'bolt',
+        1: 'create block',
         2: 'bolt',
         3: 'bolt',
         4: 'bolt',
@@ -16,13 +16,26 @@ function load_level(id){
       },
       'spellbook': {
         'bolt': {
-          'color': '#00f',
           'cost': 1,
           'current': 10,
           'cursor': 'crosshair',
-          'damage': 1,
-          'lifespan': 100,
+          'particle': {
+            'color': '#00f',
+            'damage': 1,
+            'lifespan': 100,
+          },
           'reload': 10,
+          'type': 'particle',
+        },
+        'create block': {
+          'cost': 10,
+          'current': 10,
+          'cursor': 'crosshair',
+          'reload': 10,
+          'type': 'world-dynamic',
+          'world-dynamic': {
+            'color': '#151',
+          },
         },
       },
       'stats': {
