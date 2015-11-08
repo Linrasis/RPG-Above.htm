@@ -3,32 +3,21 @@
 function load_level(id){
     create_player({
       'spellbar': {
-        1: 'bolt',
+        1: 'manabolt',
         2: 'create block',
-        3: 'bolt',
-        4: 'bolt',
-        5: 'bolt',
-        6: 'bolt',
-        7: 'bolt',
-        8: 'bolt',
-        9: 'bolt',
-        10: 'bolt',
+        3: 'lifebolt',
+        4: 'manabolt',
+        5: 'manabolt',
+        6: 'manabolt',
+        7: 'manabolt',
+        8: 'manabolt',
+        9: 'manabolt',
+        10: 'manabolt',
       },
       'spellbook': {
-        'bolt': {
-          'cost': 1,
-          'current': 10,
-          'cursor': 'crosshair',
-          'particle': {
-            'color': '#00f',
-            'damage': 1,
-            'lifespan': 100,
-          },
-          'reload': 10,
-          'type': 'particle',
-        },
         'create block': {
           'cost': 10,
+          'costs': 'mana',
           'current': 10,
           'cursor': 'crosshair',
           'reload': 10,
@@ -36,6 +25,32 @@ function load_level(id){
           'world-dynamic': {
             'color': '#151',
           },
+        },
+        'lifebolt': {
+          'cost': 1,
+          'costs': 'health',
+          'current': 10,
+          'cursor': 'crosshair',
+          'particle': {
+            'color': '#0f0',
+            'damage': 2,
+            'lifespan': 100,
+          },
+          'reload': 10,
+          'type': 'particle',
+        },
+        'manabolt': {
+          'cost': 1,
+          'costs': 'mana',
+          'current': 10,
+          'cursor': 'crosshair',
+          'particle': {
+            'color': '#00f',
+            'damage': 1,
+            'lifespan': 50,
+          },
+          'reload': 10,
+          'type': 'particle',
         },
       },
       'stats': {
@@ -112,9 +127,9 @@ function load_level(id){
       'y': 100,
     });
     create_npc({
-      'selected': 'bolt',
+      'selected': 'manabolt',
       'spellbook': {
-        'bolt': {
+        'manabolt': {
           'color': '#f00',
           'current': 0,
           'damage': 1,

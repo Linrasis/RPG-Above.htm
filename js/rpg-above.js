@@ -445,10 +445,10 @@ function logic(){
 
     if(mouse_lock_x > -1
       && player['spellbook'][selected]['current'] >= player['spellbook'][selected]['reload']
-      && player['stats']['mana']['current'] >= player['spellbook'][selected]['cost']){
+      && player['stats'][player['spellbook'][selected]['costs']]['current'] >= player['spellbook'][selected]['cost']){
         player['spellbook'][selected]['current'] = 0;
-        player['stats']['mana']['current'] = Math.max(
-          player['stats']['mana']['current'] - player['spellbook'][selected]['cost'],
+        player['stats'][player['spellbook'][selected]['costs']]['current'] = Math.max(
+          player['stats'][player['spellbook'][selected]['costs']]['current'] - player['spellbook'][selected]['cost'],
           0
         );
 
