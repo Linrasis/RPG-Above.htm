@@ -3,9 +3,8 @@
 function load_level(id){
     create_player({
       'spellbar': {
-        0: 'bolt',
-        1: 'create block',
-        2: 'bolt',
+        1: 'bolt',
+        2: 'create block',
         3: 'bolt',
         4: 'bolt',
         5: 'bolt',
@@ -13,6 +12,7 @@ function load_level(id){
         7: 'bolt',
         8: 'bolt',
         9: 'bolt',
+        10: 'bolt',
       },
       'spellbook': {
         'bolt': {

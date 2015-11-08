@@ -57,7 +57,7 @@ function create_player(properties){
       'torso': void 0,
     };
     properties['inventory'] = properties['inventory'] || [];
-    properties['selected'] = properties['selected'] || 0;
+    properties['selected'] = properties['selected'] || 1;
     properties['spellbar'] = properties['spellbar'] || {
       0: void 0,
       1: void 0,
@@ -701,11 +701,11 @@ function save(){
 }
 
 function select_spell(id){
-    if(id < 0){
-        id = 9;
+    if(id < 1){
+        id = 10;
 
-    }else if(id > 9){
-        id = 0;
+    }else if(id > 10){
+        id = 1;
     }
 
     player['selected'] = id;
@@ -821,7 +821,11 @@ window.onkeydown = function(e){
 
     }else if(key > 47
       && key < 58){
-        select_spell(key - 48);
+        select_spell(
+          key === 48
+            ? 10
+            : key - 48
+        );
         return;
     }
 
