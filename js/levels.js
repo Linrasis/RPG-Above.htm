@@ -6,7 +6,7 @@ function load_level(id){
         1: 'manabolt',
         2: 'create block',
         3: 'lifebolt',
-        4: 'manabolt',
+        4: 'heal',
         5: 'manabolt',
         6: 'manabolt',
         7: 'manabolt',
@@ -25,6 +25,18 @@ function load_level(id){
           'world-dynamic': {
             'color': '#151',
           },
+        },
+        'heal': {
+          'cost': 1,
+          'costs': 'mana',
+          'current': 10,
+          'cursor': 'pointer',
+          'effect': {
+            'damage': -1,
+            'stat': 'health',
+          },
+          'reload': 10,
+          'type': 'stat',
         },
         'lifebolt': {
           'cost': 1,

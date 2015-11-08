@@ -308,6 +308,10 @@ function effect_player(stat, effect){
     player['stats'][stat]['current'] -= effect;
     if(player['stats'][stat]['current'] <= 0){
         player['stats'][stat]['current'] = 0;
+
+    }else if(player['stats'][stat]['current'] >= player['stats'][stat]['max']){
+        player['stats'][stat]['current'] = player['stats'][stat]['max'];
+        player['stats'][stat]['regeneration']['current'] = 0;
     }
 }
 
@@ -470,6 +474,12 @@ function logic(){
             particle['y'] = player['y'];
 
             create_particle(particle);
+
+        }else if(player['spellbook'][selected]['type'] === 'stat'){
+            effect_player(
+              player['spellbook'][selected]['effect']['stat'],
+              player['spellbook'][selected]['effect']['damage']
+            );
 
         }else if(player['spellbook'][selected]['type'] === 'world-dynamic'){
             var worlddynamic = {};
