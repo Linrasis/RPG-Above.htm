@@ -776,7 +776,7 @@ function setmode(newmode, newgame){
     canvas = 0;
 
     document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Test Level</a></div></div><div class=right><div><input disabled value=Click>Cast Spell<br><input disabled value=ESC>Main Menu<br><input id=movement-keys maxlength=4 value='
-      + settings['movement-keys'] + '>Move ↑←↓→<br><input disabled value="0 - 9">Select Spell</div><hr><div><input id=audio-volume max=1 min=0 step=.01 type=range value='
+      + settings['movement-keys'] + '>Move ↑←↓→<br><input disabled value="0 - 9">Select Spell</div><hr><div><input id=audio-volume max=1 min=0 step=".01" type=range value='
       + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
       + settings['color'] + '>Color<br><input id=ms-per-frame value='
       + settings['ms-per-frame'] + '>ms/Frame<br><a onclick=reset()>Reset Settings</a></div></div>';
