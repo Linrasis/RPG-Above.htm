@@ -67,8 +67,8 @@ function load_level(id){
       },
       'stats': {
         'health': {
-          'current': 100,
-          'max': 100,
+          'current': 10,
+          'max': 10,
           'regeneration': {
             'current': 0,
             'max': 1000,
