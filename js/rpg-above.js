@@ -944,7 +944,8 @@ window.onmousedown = function(e){
 };
 
 window.onmousemove = function(e){
-    if(mode <= 0){
+    if(mode <= 0
+      || !game_running){
         return;
     }
 
