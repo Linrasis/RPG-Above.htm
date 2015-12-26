@@ -266,8 +266,23 @@ function draw(){
       175
     );
 
-    if(ui === 3){
-        buffer.textAlign = 'left';
+    // Draw selected UI.
+    buffer.textAlign = 'left';
+    if(ui === 1){
+        buffer.fillText(
+          'CHARACTER',
+          205,
+          13
+        );
+
+    }else if(ui === 2){
+        buffer.fillText(
+          'Inventory is empty.',
+          205,
+          13
+        );
+
+    }else if(ui === 3){
         for(var spell in player['spellbar']){
             buffer.fillText(
               spell
@@ -906,19 +921,19 @@ window.onkeydown = function(e){
         key_right = true;
 
     }else if(key === settings['character-key']){
-        ui = ui === 0
-          ? 1
-          : 0;
+        ui = ui === 1
+          ? 0
+          : 1;
 
     }else if(key === settings['inventory-key']){
-        ui = ui === 0
-          ? 2
-          : 0;
+        ui = ui === 2
+          ? 0
+          : 2;
 
     }else if(key === settings['spellbook-key']){
-        ui = ui === 0
-          ? 3
-          : 0;
+        ui = ui === 3
+          ? 0
+          : 3;
     }
 };
 
