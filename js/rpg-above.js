@@ -696,13 +696,18 @@ function reset(){
         return;
     }
 
-    document.getElementById('audio-volume').value = 1;
-    document.getElementById('character-key').value = 'C';
-    document.getElementById('color').value = '#009900';
-    document.getElementById('inventory-key').value = 'B';
-    document.getElementById('movement-keys').value = 'WASD';
-    document.getElementById('ms-per-frame').value = 25;
-    document.getElementById('spellbook-key').value = 'V';
+    var ids = {
+      'audio-volume': 1,
+      'character-key': 'C',
+      'color': '#009900',
+      'inventory-key': 'B',
+      'movement-keys': 'WASD',
+      'ms-per-frame': 25,
+      'spellbook-key': 'V',
+    };
+    for(var id in ids){
+        document.getElementById(id).value = ids[id];
+    }
 
     save();
 }
