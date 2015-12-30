@@ -736,13 +736,13 @@ function save(){
     };
     for(var id in ids){
         var value = document.getElementById(id).value;
+        settings[id] = parseFloat(value);
+
         if(value == ids[id]
           || isNaN(value)){
             window.localStorage.removeItem('RPG-Above.htm-' + id);
-            settings[id] = ids[id];
 
         }else{
-            settings[id] = parseFloat(value);
             window.localStorage.setItem(
               'RPG-Above.htm-' + id,
               settings[id]
@@ -759,12 +759,12 @@ function save(){
     };
     for(id in ids){
         value = document.getElementById(id).value;
+        settings[id] = value;
+
         if(value === ids[id]){
             window.localStorage.removeItem('RPG-Above.htm-' + id);
-            settings[id] = ids[id];
 
         }else{
-            settings[id] = value;
             window.localStorage.setItem(
               'RPG-Above.htm-' + id,
               settings[id]
