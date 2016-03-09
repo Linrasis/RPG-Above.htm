@@ -878,10 +878,10 @@ var settings = {
   'spellbook-key': window.localStorage.getItem('RPG-Above.htm-spellbook-key') || 'V',
 };
 var ui = 0;
-var x = 0;
 var width = 0;
 var world_dynamic = [];
 var world_static = [];
+var x = 0;
 var y = 0;
 
 window.onkeydown = function(e){
