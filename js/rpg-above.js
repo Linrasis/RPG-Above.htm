@@ -518,8 +518,8 @@ function logic(){
             for(var property in player['spellbook'][selected]['particle']){
                 particle[property] = player['spellbook'][selected]['particle'][property];
             }
-            particle['dx'] = (mouse_x > x ? speeds[0] : -speeds[0]);
-            particle['dy'] = (mouse_y > y ? speeds[1] : -speeds[1]);
+            particle['dx'] = mouse_x > x ? speeds[0] : -speeds[0];
+            particle['dy'] = mouse_y > y ? speeds[1] : -speeds[1];
             particle['x'] = player['x'];
             particle['y'] = player['y'];
 
@@ -573,8 +573,8 @@ function logic(){
             create_particle({
               'color': npcs[npc]['spellbook'][spell]['color'],
               'damage': npcs[npc]['spellbook'][spell]['damage'],
-              'dx': (player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0]),
-              'dy': (player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1]),
+              'dx': player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0],
+              'dy': player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1],
               'lifespan': npcs[npc]['spellbook'][spell]['lifespan'],
               'owner': npc,
               'x': npcs[npc]['x'],
