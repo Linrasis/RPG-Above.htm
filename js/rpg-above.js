@@ -714,9 +714,6 @@ var mouse_lock_x = 0;
 var mouse_lock_y = 0;
 var mouse_x = 0;
 var mouse_y = 0;
-var npcs = [];
-var particles = [];
-var player = {};
 var settings = {
   'audio-volume': window.localStorage.getItem('RPG-Above.htm-audio-volume') !== null
     ? parseFloat(window.localStorage.getItem('RPG-Above.htm-audio-volume'))
@@ -728,10 +725,7 @@ var settings = {
   'ms-per-frame': parseInt(window.localStorage.getItem('RPG-Above.htm-ms-per-frame'), 10) || 25,
   'spellbook-key': window.localStorage.getItem('RPG-Above.htm-spellbook-key') || 'V',
 };
-var ui = 0;
 var width = 0;
-var world_dynamic = [];
-var world_static = [];
 var x = 0;
 var y = 0;
 
