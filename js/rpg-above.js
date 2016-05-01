@@ -1,13 +1,6 @@
 'use strict';
 
-function draw(){
-    buffer.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-
+function draw_logic(){
     buffer.save();
     buffer.translate(
       x,
@@ -230,20 +223,6 @@ function draw(){
           175
         );
     }
-
-    canvas.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-    canvas.drawImage(
-      document.getElementById('buffer'),
-      0,
-      0
-    );
-
-    animationFrame = window.requestAnimationFrame(draw);
 }
 
 function logic(){
@@ -576,22 +555,6 @@ function reset(){
     save();
 }
 
-function resize(){
-    if(mode <= 0){
-        return;
-    }
-
-    height = window.innerHeight;
-    document.getElementById('buffer').height = height;
-    document.getElementById('canvas').height = height;
-    y = height / 2;
-
-    width = window.innerWidth;
-    document.getElementById('buffer').width = width;
-    document.getElementById('canvas').width = width;
-    x = width / 2;
-}
-
 // Save settings into window.localStorage if they differ from default.
 function save(){
     var ids = {
@@ -635,81 +598,40 @@ function save(){
     }
 }
 
-function setmode(newmode, newgame){
-    window.cancelAnimationFrame(animationFrame);
-    window.clearInterval(interval);
-
+function setmode_logic(newgame){
+    game_running = true;
     npcs.length = 0;
     particles.length = 0;
     world_dynamic.length = 0;
     world_static.length = 0;
 
-    game_running = true;
-    mode = newmode;
+    // Main menu mode.
+    if(mode === 0){
+        document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Test Level</a></div></div><div class=right><div><input disabled value=Click>Cast Spell<br><input id=character-key maxlength=1 value='
+          + settings['character-key'] + '>Character Info<br><input id=inventory-key maxlength=1 value='
+          + settings['inventory-key'] + '>Inventory<br><input disabled value=ESC>Main Menu<br><input id=movement-keys maxlength=4 value='
+          + settings['movement-keys'] + '>Move ↑←↓→<br><input disabled value="0 - 9">Select Spell<br><input id=spellbook-key maxlength=1 value='
+          + settings['spellbook-key'] + '>Spellbook</div><hr><div><input id=audio-volume max=1 min=0 step=0.01 type=range value='
+          + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
+          + settings['color'] + '>Color<br><input id=ms-per-frame value='
+          + settings['ms-per-frame'] + '>ms/Frame<br><a onclick=reset()>Reset Settings</a></div></div>';
 
     // New game mode.
-    if(mode > 0){
-        // If it's a newgame from the main menu, save and setup canvas and buffers.
+    }else{
         if(newgame){
             save();
-
-            document.body.innerHTML =
-              '<canvas id=canvas oncontextmenu="return false"></canvas><canvas id=buffer></canvas>';
-
-            var contextAttributes = {
-              'alpha': false,
-            };
-            buffer = document.getElementById('buffer').getContext(
-              '2d',
-              contextAttributes
-            );
-            canvas = document.getElementById('canvas').getContext(
-              '2d',
-              contextAttributes
-            );
-
-            resize();
         }
 
         ui = 0;
-
-        load_level(0);
-        select_spell(player['selected']);
-
-        animationFrame = window.requestAnimationFrame(draw);
-        interval = window.setInterval(
-          logic,
-          settings['ms-per-frame']
-        );
-
-        return;
+        //select_spell(player['selected']);
     }
-
-    // Main menu mode.
-    buffer = 0;
-    canvas = 0;
-
-    document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Test Level</a></div></div><div class=right><div><input disabled value=Click>Cast Spell<br><input id=character-key maxlength=1 value='
-      + settings['character-key'] + '>Character Info<br><input id=inventory-key maxlength=1 value='
-      + settings['inventory-key'] + '>Inventory<br><input disabled value=ESC>Main Menu<br><input id=movement-keys maxlength=4 value='
-      + settings['movement-keys'] + '>Move ↑←↓→<br><input disabled value="0 - 9">Select Spell<br><input id=spellbook-key maxlength=1 value='
-      + settings['spellbook-key'] + '>Spellbook</div><hr><div><input id=audio-volume max=1 min=0 step=0.01 type=range value='
-      + settings['audio-volume'] + '>Audio<br><input id=color type=color value='
-      + settings['color'] + '>Color<br><input id=ms-per-frame value='
-      + settings['ms-per-frame'] + '>ms/Frame<br><a onclick=reset()>Reset Settings</a></div></div>';
 }
 
-var animationFrame = 0;
-var buffer = 0;
-var canvas = 0;
 var game_running = false;
-var height = 0;
-var interval = 0;
 var key_down = false;
 var key_left = false;
 var key_right = false;
 var key_up = false;
-var mode = 0;
 var mouse_lock_x = 0;
 var mouse_lock_y = 0;
 var mouse_x = 0;
@@ -725,9 +647,6 @@ var settings = {
   'ms-per-frame': parseInt(window.localStorage.getItem('RPG-Above.htm-ms-per-frame'), 10) || 25,
   'spellbook-key': window.localStorage.getItem('RPG-Above.htm-spellbook-key') || 'V',
 };
-var width = 0;
-var x = 0;
-var y = 0;
 
 window.onkeydown = function(e){
     if(mode <= 0){
@@ -814,10 +733,7 @@ window.onload = function(e){
         );
     }
 
-    setmode(
-      0,
-      true
-    );
+    init_canvas();
 };
 
 window.onmousedown = function(e){
@@ -845,5 +761,3 @@ window.onmousemove = function(e){
 window.onmouseup = function(e){
     mouse_lock_x = -1;
 };
-
-window.onresize = resize;
