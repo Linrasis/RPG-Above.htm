@@ -489,7 +489,7 @@ function logic(){
 
         // Handle particles owned by player.
         for(var npc in npcs){
-            if(npcs[npc]['friendly']
+            if(npcs[npc]['team'] === 0
               || particles[particle]['x'] <= npcs[npc]['x'] - npcs[npc]['width'] / 2
               || particles[particle]['x'] >= npcs[npc]['x'] + npcs[npc]['width'] / 2
               || particles[particle]['y'] <= npcs[npc]['y'] - npcs[npc]['height'] / 2
