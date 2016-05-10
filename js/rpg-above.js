@@ -413,106 +413,29 @@ function logic(){
 
             npcs[npc]['spellbook'][spell]['current'] = 0;
 
-            // Calculate particle movement...
+            // Create NPC-created particle.
             var speeds = get_movement_speed(
               npcs[npc]['x'],
               npcs[npc]['y'],
               player['x'],
               player['y']
             );
+            var particle = {};
+            for(var property in npcs[npc]['spellbook'][spell]){
+                particle[property] = npcs[npc]['spellbook'][spell][property];
+            }
+            particle['dx'] = player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0];
+            particle['dy'] = player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1];
+            particle['owner'] = npc;
+            particle['x'] = npcs[npc]['x'];
+            particle['y'] = npcs[npc]['y'];
 
-            // ...and add particle with movement pattern, tied to the NPC.
-            create_particle({
-              'color': npcs[npc]['spellbook'][spell]['color'],
-              'damage': npcs[npc]['spellbook'][spell]['damage'],
-              'dx': player['x'] > npcs[npc]['x'] ? speeds[0] : -speeds[0],
-              'dy': player['y'] > npcs[npc]['y'] ? speeds[1] : -speeds[1],
-              'lifespan': npcs[npc]['spellbook'][spell]['lifespan'],
-              'owner': npc,
-              'x': npcs[npc]['x'],
-              'y': npcs[npc]['y'],
-            });
-
+            create_particle(particle);
             break;
         }
     }
 
-    // Handle particles.
-    for(var particle in particles){
-        particles[particle]['x'] += 5 * particles[particle]['dx'];
-        particles[particle]['y'] += 5 * particles[particle]['dy'];
-
-        particles[particle]['lifespan'] -= 1;
-        if(particles[particle]['lifespan'] < 0){
-            particles.splice(
-              particle,
-              1
-            );
-            continue;
-        }
-
-        for(var object in world_dynamic){
-            if(!world_dynamic[object]['collision']
-              || particles[particle]['x'] <= world_dynamic[object]['x']
-              || particles[particle]['x'] >= world_dynamic[object]['x'] + world_dynamic[object]['width']
-              || particles[particle]['y'] <= world_dynamic[object]['y']
-              || particles[particle]['y'] >= world_dynamic[object]['y'] + world_dynamic[object]['height']){
-                continue;
-            }
-
-            particles.splice(
-              particle,
-              1
-            );
-            return;
-        }
-
-        // Handle particles not owned by player.
-        if(particles[particle]['owner'] > -1){
-            if(particles[particle]['x'] > player['x'] - 17
-              && particles[particle]['x'] < player['x'] + 17
-              && particles[particle]['y'] > player['y'] - 17
-              && particles[particle]['y'] < player['y'] + 17){
-                effect_player(
-                  'health',
-                  particles[particle]['damage']
-                );
-
-                particles.splice(
-                  particle,
-                  1
-                );
-            }
-
-            continue;
-        }
-
-        // Handle particles owned by player.
-        for(var npc in npcs){
-            if(npcs[npc]['team'] === 0
-              || particles[particle]['x'] <= npcs[npc]['x'] - npcs[npc]['width'] / 2
-              || particles[particle]['x'] >= npcs[npc]['x'] + npcs[npc]['width'] / 2
-              || particles[particle]['y'] <= npcs[npc]['y'] - npcs[npc]['height'] / 2
-              || particles[particle]['y'] >= npcs[npc]['y'] + npcs[npc]['height'] / 2){
-                continue;
-            }
-
-            npcs[npc]['stats']['health']['current'] -= particles[particle]['damage'];
-            if(npcs[npc]['stats']['health']['current'] <= 0){
-                npcs.splice(
-                  npc,
-                  1
-                );
-            }
-
-            particles.splice(
-              particle,
-              1
-            );
-
-            break;
-        }
-    }
+    handle_particles();
 
     if(player['stats']['health']['current'] <= 0){
         game_running = false;
