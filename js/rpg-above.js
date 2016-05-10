@@ -457,70 +457,6 @@ function mouse_wheel(e){
     );
 }
 
-function reset(){
-    if(!window.confirm('Reset settings?')){
-        return;
-    }
-
-    var ids = {
-      'audio-volume': 1,
-      'character-key': 'C',
-      'color': '#009900',
-      'inventory-key': 'B',
-      'movement-keys': 'WASD',
-      'ms-per-frame': 25,
-      'spellbook-key': 'V',
-    };
-    for(var id in ids){
-        document.getElementById(id).value = ids[id];
-    }
-
-    save();
-}
-
-// Save settings into window.localStorage if they differ from default.
-function save(){
-    var ids = {
-      'audio-volume': 1,
-      'ms-per-frame': 25,
-    };
-    for(var id in ids){
-        settings[id] = parseFloat(document.getElementById(id).value);
-
-        if(settings[id] == ids[id]
-          || isNaN(settings[id])){
-            window.localStorage.removeItem('RPG-Above.htm-' + id);
-
-        }else{
-            window.localStorage.setItem(
-              'RPG-Above.htm-' + id,
-              settings[id]
-            );
-        }
-    }
-
-    ids = {
-      'character-key': 'C',
-      'color': '#009900',
-      'inventory-key': 'B',
-      'movement-keys': 'WASD',
-      'spellbook-key': 'V',
-    };
-    for(id in ids){
-        settings[id] = document.getElementById(id).value;
-
-        if(settings[id] === ids[id]){
-            window.localStorage.removeItem('RPG-Above.htm-' + id);
-
-        }else{
-            window.localStorage.setItem(
-              'RPG-Above.htm-' + id,
-              settings[id]
-            );
-        }
-    }
-}
-
 function setmode_logic(newgame){
     game_running = true;
     npcs.length = 0;
@@ -559,17 +495,6 @@ var mouse_lock_x = 0;
 var mouse_lock_y = 0;
 var mouse_x = 0;
 var mouse_y = 0;
-var settings = {
-  'audio-volume': window.localStorage.getItem('RPG-Above.htm-audio-volume') !== null
-    ? parseFloat(window.localStorage.getItem('RPG-Above.htm-audio-volume'))
-    : 1,
-  'character-key': window.localStorage.getItem('RPG-Above.htm-character-key') || 'C',
-  'color': window.localStorage.getItem('RPG-Above.htm-color') || '#009900',
-  'inventory-key': window.localStorage.getItem('RPG-Above.htm-inventory-key') || 'B',
-  'movement-keys': window.localStorage.getItem('RPG-Above.htm-movement-keys') || 'WASD',
-  'ms-per-frame': parseInt(window.localStorage.getItem('RPG-Above.htm-ms-per-frame'), 10) || 25,
-  'spellbook-key': window.localStorage.getItem('RPG-Above.htm-spellbook-key') || 'V',
-};
 
 window.onkeydown = function(e){
     if(mode <= 0){
@@ -656,6 +581,18 @@ window.onload = function(e){
         );
     }
 
+    init_settings(
+      'RPG-Above.htm-',
+      {
+        'audio-volume': 1,
+        'character-key': 'C',
+        'color': '#009900',
+        'inventory-key': 'B',
+        'movement-keys': 'WASD',
+        'ms-per-frame': 25,
+        'spellbook-key': 'V',
+      }
+    );
     init_canvas();
 };
 
