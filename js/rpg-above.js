@@ -62,10 +62,10 @@ function draw_logic(){
     // Draw player and targeting direction.
     buffer.fillStyle = settings['color'];
     buffer.fillRect(
-      -17,
-      -17,
-      34,
-      34
+      -player['width-half'],
+      -player['height-half'],
+      player['width'],
+      player['height']
     );
     var endpoint = get_fixed_length_line(
       0,
@@ -269,10 +269,10 @@ function logic(){
             continue;
         }
 
-        if(player['x'] + player_dx - 17 > world_dynamic[object]['x'] + world_dynamic[object]['width']
-          || player['x'] + player_dx + 17 < world_dynamic[object]['x']
-          || player['y'] + player_dy - 17 > world_dynamic[object]['y'] + world_dynamic[object]['height']
-          || player['y'] + player_dy + 17 < world_dynamic[object]['y']){
+        if(player['x'] + player_dx - player['width-half'] > world_dynamic[object]['x'] + world_dynamic[object]['width']
+          || player['x'] + player_dx + player['width-half'] < world_dynamic[object]['x']
+          || player['y'] + player_dy - player['height-half'] > world_dynamic[object]['y'] + world_dynamic[object]['height']
+          || player['y'] + player_dy + player['height-half'] < world_dynamic[object]['y']){
             continue;
         }
 
@@ -287,32 +287,32 @@ function logic(){
             continue;
         }
 
-        if(player['y'] > world_dynamic[object]['y'] - 17
-          && player['y'] < world_dynamic[object]['y'] + world_dynamic[object]['height'] + 17){
+        if(player['y'] > world_dynamic[object]['y'] - player['height-half']
+          && player['y'] < world_dynamic[object]['y'] + world_dynamic[object]['height'] + player['height-half']){
             if(key_left
-              && player['y'] + player_dy + 17 > world_dynamic[object]['y']
-              && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
-              && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']){
+              && player['y'] + player_dy + player['height-half'] > world_dynamic[object]['y']
+              && player['y'] + player_dy - player['height-half'] < world_dynamic[object]['y'] + world_dynamic[object]['height']
+              && player['x'] + player_dx - player['width-half'] < world_dynamic[object]['x'] + world_dynamic[object]['width']){
                 player_dx = 0;
 
             }else if(key_right
-              && player['y'] + player_dy + 17 > world_dynamic[object]['y']
-              && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']
-              && player['x'] + player_dx + 17 > world_dynamic[object]['x']){
+              && player['y'] + player_dy + player['height-half'] > world_dynamic[object]['y']
+              && player['y'] + player_dy - player['height-half'] < world_dynamic[object]['y'] + world_dynamic[object]['height']
+              && player['x'] + player_dx + player['width-half'] > world_dynamic[object]['x']){
                 player_dx = 0;
             }
         }
 
         if(key_down
-          && player['x'] + player_dx + 17 > world_dynamic[object]['x']
-          && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']
-          && player['y'] + player_dy + 17 > world_dynamic[object]['y']){
+          && player['x'] + player_dx + player['width-half'] > world_dynamic[object]['x']
+          && player['x'] + player_dx - player['width-half'] < world_dynamic[object]['x'] + world_dynamic[object]['width']
+          && player['y'] + player_dy + player['height-half'] > world_dynamic[object]['y']){
             player_dy = 0;
 
         }else if(key_up
-          && player['x'] + player_dx + 17 > world_dynamic[object]['x']
-          && player['x'] + player_dx - 17 < world_dynamic[object]['x'] + world_dynamic[object]['width']
-          && player['y'] + player_dy - 17 < world_dynamic[object]['y'] + world_dynamic[object]['height']){
+          && player['x'] + player_dx + player['width-half'] > world_dynamic[object]['x']
+          && player['x'] + player_dx - player['width-half'] < world_dynamic[object]['x'] + world_dynamic[object]['width']
+          && player['y'] + player_dy - player['height-half'] < world_dynamic[object]['y'] + world_dynamic[object]['height']){
             player_dy = 0;
         }
     }
