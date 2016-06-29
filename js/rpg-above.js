@@ -115,7 +115,7 @@ function draw_logic(){
 
     // Setup text display.
     buffer.fillStyle = '#fff';
-    buffer.font = '23pt sans-serif';
+    buffer.font = font;
     buffer.textAlign = 'center';
     buffer.textBaseline = 'middle';
 
@@ -139,8 +139,6 @@ function draw_logic(){
       50,
       175
     );
-
-    buffer.font = '16pt sans-serif';
     buffer.fillText(
       parseInt(
         player['stats']['health']['current'] * 100 / player['stats']['health']['max'],
@@ -207,7 +205,6 @@ function draw_logic(){
 
     // Draw game over messages.
     if(!game_running){
-        buffer.font = '23pt sans-serif';
         buffer.textAlign = 'center';
         buffer.fillText(
           'ESC = Main Menu',
@@ -216,7 +213,7 @@ function draw_logic(){
         );
 
         buffer.fillStyle = '#f00';
-        buffer.font = '42pt sans-serif';
+        buffer.font = '42px monospace';
         buffer.fillText(
           'YOU ARE DEAD',
           x,
