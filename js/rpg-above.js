@@ -115,7 +115,7 @@ function draw_logic(){
 
     // Setup text display.
     buffer.fillStyle = '#fff';
-    buffer.font = font;
+    buffer.font = fonts['medium'];
     buffer.textAlign = 'center';
     buffer.textBaseline = 'middle';
 
@@ -213,7 +213,7 @@ function draw_logic(){
         );
 
         buffer.fillStyle = '#f00';
-        buffer.font = '42px monospace';
+        buffer.font = fonts['big'];
         buffer.fillText(
           'YOU ARE DEAD',
           x,
