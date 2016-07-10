@@ -9,51 +9,51 @@ function draw_logic(){
 
     buffer.save();
     buffer.translate(
-      -player['x'],
-      -player['y']
+      -rpg_player['x'],
+      -rpg_player['y']
     );
 
     // Draw static world objects.
-    for(var object in world_static){
-        buffer.fillStyle = world_static[object]['color'];
+    for(var object in rpg_world_static){
+        buffer.fillStyle = rpg_world_static[object]['color'];
         buffer.fillRect(
-          world_static[object]['x'],
-          world_static[object]['y'],
-          world_static[object]['width'],
-          world_static[object]['height']
+          rpg_world_static[object]['x'],
+          rpg_world_static[object]['y'],
+          rpg_world_static[object]['width'],
+          rpg_world_static[object]['height']
         );
     }
 
     // Draw dynamic world objects.
-    for(var object in world_dynamic){
-        buffer.fillStyle = world_dynamic[object]['color'];
+    for(var object in rpg_world_dynamic){
+        buffer.fillStyle = rpg_world_dynamic[object]['color'];
         buffer.fillRect(
-          world_dynamic[object]['x'],
-          world_dynamic[object]['y'],
-          world_dynamic[object]['width'],
-          world_dynamic[object]['height']
+          rpg_world_dynamic[object]['x'],
+          rpg_world_dynamic[object]['y'],
+          rpg_world_dynamic[object]['width'],
+          rpg_world_dynamic[object]['height']
         );
     }
 
     // Draw NPCs.
-    for(var npc in npcs){
-        buffer.fillStyle = npcs[npc]['color'];
+    for(var npc in rpg_npcs){
+        buffer.fillStyle = rpg_npcs[npc]['color'];
         buffer.fillRect(
-          npcs[npc]['x'] - npcs[npc]['width-half'],
-          npcs[npc]['y'] - npcs[npc]['height-half'],
-          npcs[npc]['width'],
-          npcs[npc]['height']
+          rpg_npcs[npc]['x'] - rpg_npcs[npc]['width-half'],
+          rpg_npcs[npc]['y'] - rpg_npcs[npc]['height-half'],
+          rpg_npcs[npc]['width'],
+          rpg_npcs[npc]['height']
         );
     }
 
     // Draw particles.
-    for(var particle in particles){
-        buffer.fillStyle = particles[particle]['color'];
+    for(var particle in rpg_particles){
+        buffer.fillStyle = rpg_particles[particle]['color'];
         buffer.fillRect(
-          particles[particle]['x'] - particles[particle]['width-half'],
-          particles[particle]['y'] - particles[particle]['height-half'],
-          particles[particle]['width'],
-          particles[particle]['height']
+          rpg_particles[particle]['x'] - rpg_particles[particle]['width-half'],
+          rpg_particles[particle]['y'] - rpg_particles[particle]['height-half'],
+          rpg_particles[particle]['width'],
+          rpg_particles[particle]['height']
         );
     }
 
@@ -62,12 +62,12 @@ function draw_logic(){
     // Draw player and targeting direction.
     buffer.fillStyle = settings['color'];
     buffer.fillRect(
-      -player['width-half'],
-      -player['height-half'],
-      player['width'],
-      player['height']
+      -rpg_player['width-half'],
+      -rpg_player['height-half'],
+      rpg_player['width'],
+      rpg_player['height']
     );
-    var endpoint = get_fixed_length_line(
+    var endpoint = fixed_length_line(
       0,
       0,
       mouse_x - x,
@@ -102,14 +102,14 @@ function draw_logic(){
     buffer.fillRect(
       0,
       0,
-      200 * (player['stats']['health']['current'] / player['stats']['health']['max']),
+      200 * (rpg_player['stats']['health']['current'] / rpg_player['stats']['health']['max']),
       100
     );
     buffer.fillStyle = '#66f';
     buffer.fillRect(
       0,
       100,
-      200 * (player['stats']['mana']['current'] / player['stats']['mana']['max']),
+      200 * (rpg_player['stats']['mana']['current'] / rpg_player['stats']['mana']['max']),
       100
     );
 
@@ -120,77 +120,77 @@ function draw_logic(){
     buffer.textBaseline = 'middle';
 
     buffer.fillText(
-      player['stats']['health']['current'],
+      rpg_player['stats']['health']['current'],
       50,
       25
     );
     buffer.fillText(
-      player['stats']['health']['max'],
+      rpg_player['stats']['health']['max'],
       50,
       75
     );
     buffer.fillText(
-      player['stats']['mana']['current'],
+      rpg_player['stats']['mana']['current'],
       50,
       125
     );
     buffer.fillText(
-      player['stats']['mana']['max'],
+      rpg_player['stats']['mana']['max'],
       50,
       175
     );
     buffer.fillText(
       parseInt(
-        player['stats']['health']['current'] * 100 / player['stats']['health']['max'],
+        rpg_player['stats']['health']['current'] * 100 / rpg_player['stats']['health']['max'],
         10
       ) + '%',
       150,
       25
     );
     buffer.fillText(
-      player['stats']['health']['regeneration']['current']
-        + '/' + player['stats']['health']['regeneration']['max'],
+      rpg_player['stats']['health']['regeneration']['current']
+        + '/' + rpg_player['stats']['health']['regeneration']['max'],
       150,
       75
     );
     buffer.fillText(
       parseInt(
-        player['stats']['mana']['current'] * 100 / player['stats']['mana']['max'],
+        rpg_player['stats']['mana']['current'] * 100 / rpg_player['stats']['mana']['max'],
         10
       ) + '%',
       150,
       125
     );
     buffer.fillText(
-      player['stats']['mana']['regeneration']['current']
-        + '/' + player['stats']['mana']['regeneration']['max'],
+      rpg_player['stats']['mana']['regeneration']['current']
+        + '/' + rpg_player['stats']['mana']['regeneration']['max'],
       150,
       175
     );
 
     // Draw selected UI.
     buffer.textAlign = 'left';
-    if(ui === 1){
+    if(rpg_ui === 1){
         buffer.fillText(
           'CHARACTER',
           205,
           13
         );
 
-    }else if(ui === 2){
+    }else if(rpg_ui === 2){
         buffer.fillText(
           'Inventory is empty.',
           205,
           13
         );
 
-    }else if(ui === 3){
-        for(var spell in player['spellbar']){
+    }else if(rpg_ui === 3){
+        for(var spell in rpg_player['spellbar']){
             buffer.fillText(
               spell
                 + ': '
-                + player['spellbar'][spell]
-                + (spell == player['selected']
+                + rpg_player['spellbar'][spell]
+                + (spell == rpg_player['selected']
                   ? ', selected'
                   : ''
                 ),
@@ -260,67 +260,67 @@ function logic(){
     }
 
     // Check for player collision with dynamic world objects.
-    for(var object in world_dynamic){
-        if(world_dynamic[object]['effect'] === 0
-          && !world_dynamic[object]['collision']){
+    for(var object in rpg_world_dynamic){
+        if(rpg_world_dynamic[object]['effect'] === 0
+          && !rpg_world_dynamic[object]['collision']){
             continue;
         }
 
-        if(player['x'] + player_dx - player['width-half'] > world_dynamic[object]['x'] + world_dynamic[object]['width']
-          || player['x'] + player_dx + player['width-half'] < world_dynamic[object]['x']
-          || player['y'] + player_dy - player['height-half'] > world_dynamic[object]['y'] + world_dynamic[object]['height']
-          || player['y'] + player_dy + player['height-half'] < world_dynamic[object]['y']){
+        if(rpg_player['x'] + player_dx - rpg_player['width-half'] > rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']
+          || rpg_player['x'] + player_dx + rpg_player['width-half'] < rpg_world_dynamic[object]['x']
+          || rpg_player['y'] + player_dy - rpg_player['height-half'] > rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']
+          || rpg_player['y'] + player_dy + rpg_player['height-half'] < rpg_world_dynamic[object]['y']){
             continue;
         }
 
-        if(world_dynamic[object]['effect'] > 0){
-            effect_player(
-              world_dynamic[object]['effect-stat'],
-              world_dynamic[object]['effect']
+        if(rpg_world_dynamic[object]['effect'] > 0){
+            rpg_player_affect(
+              rpg_world_dynamic[object]['effect-stat'],
+              rpg_world_dynamic[object]['effect']
             );
         }
 
-        if(!world_dynamic[object]['collision']){
+        if(!rpg_world_dynamic[object]['collision']){
             continue;
         }
 
-        if(player['y'] > world_dynamic[object]['y'] - player['height-half']
-          && player['y'] < world_dynamic[object]['y'] + world_dynamic[object]['height'] + player['height-half']){
+        if(rpg_player['y'] > rpg_world_dynamic[object]['y'] - rpg_player['height-half']
+          && rpg_player['y'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height'] + rpg_player['height-half']){
             if(key_left
-              && player['y'] + player_dy + player['height-half'] > world_dynamic[object]['y']
-              && player['y'] + player_dy - player['height-half'] < world_dynamic[object]['y'] + world_dynamic[object]['height']
-              && player['x'] + player_dx - player['width-half'] < world_dynamic[object]['x'] + world_dynamic[object]['width']){
+              && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']
+              && rpg_player['y'] + player_dy - rpg_player['height-half'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']
+              && rpg_player['x'] + player_dx - rpg_player['width-half'] < rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']){
                 player_dx = 0;
 
             }else if(key_right
-              && player['y'] + player_dy + player['height-half'] > world_dynamic[object]['y']
-              && player['y'] + player_dy - player['height-half'] < world_dynamic[object]['y'] + world_dynamic[object]['height']
-              && player['x'] + player_dx + player['width-half'] > world_dynamic[object]['x']){
+              && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']
+              && rpg_player['y'] + player_dy - rpg_player['height-half'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']
+              && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']){
                 player_dx = 0;
             }
         }
 
         if(key_down
-          && player['x'] + player_dx + player['width-half'] > world_dynamic[object]['x']
-          && player['x'] + player_dx - player['width-half'] < world_dynamic[object]['x'] + world_dynamic[object]['width']
-          && player['y'] + player_dy + player['height-half'] > world_dynamic[object]['y']){
+          && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']
+          && rpg_player['x'] + player_dx - rpg_player['width-half'] < rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']
+          && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']){
             player_dy = 0;
 
         }else if(key_up
-          && player['x'] + player_dx + player['width-half'] > world_dynamic[object]['x']
-          && player['x'] + player_dx - player['width-half'] < world_dynamic[object]['x'] + world_dynamic[object]['width']
-          && player['y'] + player_dy - player['height-half'] < world_dynamic[object]['y'] + world_dynamic[object]['height']){
+          && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']
+          && rpg_player['x'] + player_dx - rpg_player['width-half'] < rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']
+          && rpg_player['y'] + player_dy - rpg_player['height-half'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']){
             player_dy = 0;
         }
     }
 
     // Update actual player position.
-    player['x'] += player_dx;
-    player['y'] += player_dy;
+    rpg_player['x'] += player_dx;
+    rpg_player['y'] += player_dy;
 
-    handle_player();
-    handle_npcs();
-    handle_particles();
+    rpg_player_handle();
+    rpg_npc_handle();
+    rpg_particle_handle();
 }
 
 function mouse_wheel(e){
@@ -328,8 +328,8 @@ function mouse_wheel(e){
         return;
     }
 
-    select_spell(
-      player['selected']
+    rpg_spell_select(
+      rpg_player['selected']
         + (
           (e.wheelDelta || -e.detail) > 0
             ? -1
@@ -340,10 +340,10 @@ function mouse_wheel(e){
 
 function setmode_logic(newgame){
     game_running = true;
-    npcs.length = 0;
-    particles.length = 0;
-    world_dynamic.length = 0;
-    world_static.length = 0;
+    rpg_npcs.length = 0;
+    rpg_particles.length = 0;
+    rpg_world_dynamic.length = 0;
+    rpg_world_static.length = 0;
 
     // Main menu mode.
     if(mode === 0){
@@ -367,8 +367,8 @@ function setmode_logic(newgame){
             save();
         }
 
-        ui = 0;
-        //select_spell(player['selected']);
+        rpg_ui = 0;
+        //rpg_spell_select(rpg_player['selected']);
     }
 }
 
@@ -398,7 +398,7 @@ window.onkeydown = function(e){
 
     }else if(key > 47
       && key < 58){
-        select_spell(
+        rpg_spell_select(
           key === 48
             ? 10
             : key - 48
@@ -421,17 +421,17 @@ window.onkeydown = function(e){
         key_right = true;
 
     }else if(key === settings['character-key']){
-        ui = ui === 1
+        rpg_ui = rpg_ui === 1
           ? 0
           : 1;
 
     }else if(key === settings['inventory-key']){
-        ui = ui === 2
+        rpg_ui = rpg_ui === 2
           ? 0
           : 2;
 
     }else if(key === settings['spellbook-key']){
-        ui = ui === 3
+        rpg_ui = rpg_ui === 3
           ? 0
           : 3;
     }

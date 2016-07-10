@@ -1,7 +1,7 @@
 'use strict';
 
 function load_level(id){
-    create_player({
+    rpg_player_create({
       'spellbar': {
         1: 'manabolt',
         2: 'create block',
@@ -89,28 +89,28 @@ function load_level(id){
       },
     });
 
-    create_world_dynamic({
+    rpg_world_dynamic_create({
       'color': '#222',
       'height': 100,
       'width': 25,
       'x': -150,
       'y': -150,
     });
-    create_world_dynamic({
+    rpg_world_dynamic_create({
       'color': '#222',
       'height': 25,
       'width': 100,
       'x': -125,
       'y': -150,
     });
-    create_world_dynamic({
+    rpg_world_dynamic_create({
       'color': '#222',
       'height': 25,
       'width': 25,
       'x': 100,
       'y': -75,
     });
-    create_world_dynamic({
+    rpg_world_dynamic_create({
       'collision': false,
       'color': '#700',
       'effect': 1,
@@ -119,7 +119,7 @@ function load_level(id){
       'x': 150,
       'y': 150,
     });
-    create_world_dynamic({
+    rpg_world_dynamic_create({
       'collision': false,
       'color': '#66f',
       'effect': 1,
@@ -129,7 +129,7 @@ function load_level(id){
       'x': 100,
       'y': 150,
     });
-    world_static.push({
+    rpg_world_static.push({
       'color': '#333',
       'height': 500,
       'width': 500,
@@ -137,12 +137,12 @@ function load_level(id){
       'y': -250,
     });
 
-    create_npc({
+    rpg_npc_create({
       'team': 0,
       'x': -200,
       'y': 100,
     });
-    create_npc({
+    rpg_npc_create({
       'selected': 'manabolt',
       'spellbook': {
         'manabolt': {
