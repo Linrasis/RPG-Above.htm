@@ -60,7 +60,7 @@ function draw_logic(){
     buffer.restore();
 
     // Draw player and targeting direction.
-    buffer.fillStyle = settings['color'];
+    buffer.fillStyle = settings_settings['color'];
     buffer.fillRect(
       -rpg_player['width-half'],
       -rpg_player['height-half'],
@@ -358,13 +358,13 @@ function setmode_logic(newgame){
           + '<div><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br>'
           + '<input id=color type=color>Color<br>'
           + '<input id=ms-per-frame>ms/Frame<br>'
-          + '<a onclick=reset()>Reset Settings</a></div></div>';
-        update_settings();
+          + '<a onclick=settings_reset()>Reset Settings</a></div></div>';
+        settings_update();
 
     // New game mode.
     }else{
         if(newgame){
-            save();
+            settings_save();
         }
 
         rpg_ui = 0;
@@ -408,29 +408,29 @@ window.onkeydown = function(e){
 
     key = String.fromCharCode(key);
 
-    if(key === settings['movement-keys'][0]){
+    if(key === settings_settings['movement-keys'][0]){
         key_up = true;
 
-    }else if(key === settings['movement-keys'][1]){
+    }else if(key === settings_settings['movement-keys'][1]){
         key_left = true;
 
-    }else if(key === settings['movement-keys'][2]){
+    }else if(key === settings_settings['movement-keys'][2]){
         key_down = true;
 
-    }else if(key === settings['movement-keys'][3]){
+    }else if(key === settings_settings['movement-keys'][3]){
         key_right = true;
 
-    }else if(key === settings['character-key']){
+    }else if(key === settings_settings['character-key']){
         rpg_ui = rpg_ui === 1
           ? 0
           : 1;
 
-    }else if(key === settings['inventory-key']){
+    }else if(key === settings_settings['inventory-key']){
         rpg_ui = rpg_ui === 2
           ? 0
           : 2;
 
-    }else if(key === settings['spellbook-key']){
+    }else if(key === settings_settings['spellbook-key']){
         rpg_ui = rpg_ui === 3
           ? 0
           : 3;
@@ -440,16 +440,16 @@ window.onkeydown = function(e){
 window.onkeyup = function(e){
     var key = String.fromCharCode(e.keyCode || e.which);
 
-    if(key === settings['movement-keys'][0]){
+    if(key === settings_settings['movement-keys'][0]){
         key_up = false;
 
-    }else if(key === settings['movement-keys'][1]){
+    }else if(key === settings_settings['movement-keys'][1]){
         key_left = false;
 
-    }else if(key === settings['movement-keys'][2]){
+    }else if(key === settings_settings['movement-keys'][2]){
         key_down = false;
 
-    }else if(key === settings['movement-keys'][3]){
+    }else if(key === settings_settings['movement-keys'][3]){
         key_right = false;
     }
 };
@@ -466,7 +466,7 @@ window.onload = function(e){
         );
     }
 
-    init_settings(
+    settings_init(
       'RPG-Above.htm-',
       {
         'audio-volume': 1,
