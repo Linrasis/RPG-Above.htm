@@ -1,22 +1,22 @@
 'use strict';
 
 function draw_logic(){
-    buffer.save();
-    buffer.translate(
-      x,
-      y
+    canvas_buffer.save();
+    canvas_buffer.translate(
+      canvas_x,
+      canvas_y
     );
 
-    buffer.save();
-    buffer.translate(
+    canvas_buffer.save();
+    canvas_buffer.translate(
       -rpg_player['x'],
       -rpg_player['y']
     );
 
     // Draw static world objects.
     for(var object in rpg_world_static){
-        buffer.fillStyle = rpg_world_static[object]['color'];
-        buffer.fillRect(
+        canvas_buffer.fillStyle = rpg_world_static[object]['color'];
+        canvas_buffer.fillRect(
           rpg_world_static[object]['x'],
           rpg_world_static[object]['y'],
           rpg_world_static[object]['width'],
@@ -26,8 +26,8 @@ function draw_logic(){
 
     // Draw dynamic world objects.
     for(var object in rpg_world_dynamic){
-        buffer.fillStyle = rpg_world_dynamic[object]['color'];
-        buffer.fillRect(
+        canvas_buffer.fillStyle = rpg_world_dynamic[object]['color'];
+        canvas_buffer.fillRect(
           rpg_world_dynamic[object]['x'],
           rpg_world_dynamic[object]['y'],
           rpg_world_dynamic[object]['width'],
@@ -37,8 +37,8 @@ function draw_logic(){
 
     // Draw NPCs.
     for(var npc in rpg_npcs){
-        buffer.fillStyle = rpg_npcs[npc]['color'];
-        buffer.fillRect(
+        canvas_buffer.fillStyle = rpg_npcs[npc]['color'];
+        canvas_buffer.fillRect(
           rpg_npcs[npc]['x'] - rpg_npcs[npc]['width-half'],
           rpg_npcs[npc]['y'] - rpg_npcs[npc]['height-half'],
           rpg_npcs[npc]['width'],
@@ -48,8 +48,8 @@ function draw_logic(){
 
     // Draw particles.
     for(var particle in rpg_particles){
-        buffer.fillStyle = rpg_particles[particle]['color'];
-        buffer.fillRect(
+        canvas_buffer.fillStyle = rpg_particles[particle]['color'];
+        canvas_buffer.fillRect(
           rpg_particles[particle]['x'] - rpg_particles[particle]['width-half'],
           rpg_particles[particle]['y'] - rpg_particles[particle]['height-half'],
           rpg_particles[particle]['width'],
@@ -57,11 +57,11 @@ function draw_logic(){
         );
     }
 
-    buffer.restore();
+    canvas_buffer.restore();
 
     // Draw player and targeting direction.
-    buffer.fillStyle = settings_settings['color'];
-    buffer.fillRect(
+    canvas_buffer.fillStyle = settings_settings['color'];
+    canvas_buffer.fillRect(
       -rpg_player['width-half'],
       -rpg_player['height-half'],
       rpg_player['width'],
@@ -70,43 +70,43 @@ function draw_logic(){
     var endpoint = math_fixed_length_line(
       0,
       0,
-      mouse_x - x,
-      mouse_y - y,
+      mouse_x - canvas_x,
+      mouse_y - canvas_y,
       25
     );
-    buffer.beginPath();
-    buffer.moveTo(
+    canvas_buffer.beginPath();
+    canvas_buffer.moveTo(
       0,
       0
     );
-    buffer.lineTo(
+    canvas_buffer.lineTo(
       endpoint['x'],
       endpoint['y']
     );
-    buffer.closePath();
-    buffer.strokeStyle = '#fff';
-    buffer.stroke();
+    canvas_buffer.closePath();
+    canvas_buffer.strokeStyle = '#fff';
+    canvas_buffer.stroke();
 
-    buffer.restore();
+    canvas_buffer.restore();
 
     // Draw UI.
-    buffer.fillStyle = '#444';
-    buffer.fillRect(
+    canvas_buffer.fillStyle = '#444';
+    canvas_buffer.fillRect(
       0,
       0,
       200,
       250
     );
 
-    buffer.fillStyle = '#0a0';
-    buffer.fillRect(
+    canvas_buffer.fillStyle = '#0a0';
+    canvas_buffer.fillRect(
       0,
       0,
       200 * (rpg_player['stats']['health']['current'] / rpg_player['stats']['health']['max']),
       100
     );
-    buffer.fillStyle = '#66f';
-    buffer.fillRect(
+    canvas_buffer.fillStyle = '#66f';
+    canvas_buffer.fillRect(
       0,
       100,
       200 * (rpg_player['stats']['mana']['current'] / rpg_player['stats']['mana']['max']),
@@ -114,32 +114,32 @@ function draw_logic(){
     );
 
     // Setup text display.
-    buffer.fillStyle = '#fff';
-    buffer.font = fonts['medium'];
-    buffer.textAlign = 'center';
-    buffer.textBaseline = 'middle';
+    canvas_buffer.fillStyle = '#fff';
+    canvas_buffer.font = canvas_fonts['medium'];
+    canvas_buffer.textAlign = 'center';
+    canvas_buffer.textBaseline = 'middle';
 
-    buffer.fillText(
+    canvas_buffer.fillText(
       rpg_player['stats']['health']['current'],
       50,
       25
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       rpg_player['stats']['health']['max'],
       50,
       75
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       rpg_player['stats']['mana']['current'],
       50,
       125
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       rpg_player['stats']['mana']['max'],
       50,
       175
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       parseInt(
         rpg_player['stats']['health']['current'] * 100 / rpg_player['stats']['health']['max'],
         10
@@ -147,13 +147,13 @@ function draw_logic(){
       150,
       25
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       rpg_player['stats']['health']['regeneration']['current']
         + '/' + rpg_player['stats']['health']['regeneration']['max'],
       150,
       75
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       parseInt(
         rpg_player['stats']['mana']['current'] * 100 / rpg_player['stats']['mana']['max'],
         10
@@ -161,7 +161,7 @@ function draw_logic(){
       150,
       125
     );
-    buffer.fillText(
+    canvas_buffer.fillText(
       rpg_player['stats']['mana']['regeneration']['current']
         + '/' + rpg_player['stats']['mana']['regeneration']['max'],
       150,
@@ -171,14 +171,14 @@ function draw_logic(){
     // Draw selected UI.
     buffer.textAlign = 'left';
     if(rpg_ui === 1){
-        buffer.fillText(
+        canvas_buffer.fillText(
           'CHARACTER',
           205,
           13
         );
 
     }else if(rpg_ui === 2){
-        buffer.fillText(
+        canvas_buffer.fillText(
           'Inventory is empty.',
           205,
           13
@@ -186,7 +186,7 @@ function draw_logic(){
 
     }else if(rpg_ui === 3){
         for(var spell in rpg_player['spellbar']){
-            buffer.fillText(
+            canvas_buffer.fillText(
               spell
                 + ': '
                 + rpg_player['spellbar'][spell]
@@ -205,18 +205,18 @@ function draw_logic(){
 
     // Draw game over messages.
     if(!game_running){
-        buffer.textAlign = 'center';
-        buffer.fillText(
+        canvas_buffer.textAlign = 'center';
+        canvas_buffer.fillText(
           'ESC = Main Menu',
-          x,
+          canvas_x,
           220
         );
 
-        buffer.fillStyle = '#f00';
-        buffer.font = fonts['big'];
-        buffer.fillText(
+        canvas_buffer.fillStyle = '#f00';
+        canvas_buffer.font = canvas_fonts['big'];
+        canvas_buffer.fillText(
           'YOU ARE DEAD',
-          x,
+          canvas_x,
           175
         );
     }
@@ -324,7 +324,7 @@ function logic(){
 }
 
 function mouse_wheel(e){
-    if(mode <= 0){
+    if(canvas_mode <= 0){
         return;
     }
 
@@ -346,8 +346,8 @@ function setmode_logic(newgame){
     rpg_world_static.length = 0;
 
     // Main menu mode.
-    if(mode === 0){
-        document.body.innerHTML = '<div><div><a onclick="setmode(1, true)">Test Level</a></div></div>'
+    if(canvas_mode === 0){
+        document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Test Level</a></div></div>'
           + '<div class=right><div><input disabled value=Click>Cast Spell<br>'
           + '<input id=character-key maxlength=1>Character Info<br>'
           + '<input id=inventory-key maxlength=1>Inventory<br>'
@@ -382,7 +382,7 @@ var mouse_x = 0;
 var mouse_y = 0;
 
 window.onkeydown = function(e){
-    if(mode <= 0){
+    if(canvas_mode <= 0){
         return;
     }
 
@@ -390,7 +390,7 @@ window.onkeydown = function(e){
 
     // ESC: return to main menu.
     if(key === 27){
-        setmode(
+        canvas_setmode(
           0,
           true
         );
@@ -478,11 +478,11 @@ window.onload = function(e){
         'spellbook-key': 'V',
       }
     );
-    init_canvas();
+    canvas_init();
 };
 
 window.onmousedown = function(e){
-    if(mode <= 0
+    if(canvas_mode <= 0
       || (mouse_x <= 200
         && mouse_y <= 250)){
         return;
@@ -494,7 +494,7 @@ window.onmousedown = function(e){
 };
 
 window.onmousemove = function(e){
-    if(mode <= 0
+    if(canvas_mode <= 0
       || !game_running){
         return;
     }
