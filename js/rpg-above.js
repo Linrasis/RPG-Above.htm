@@ -67,7 +67,7 @@ function draw_logic(){
       rpg_player['width'],
       rpg_player['height']
     );
-    var endpoint = fixed_length_line(
+    var endpoint = math_fixed_length_line(
       0,
       0,
       mouse_x - x,
