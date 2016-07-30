@@ -223,7 +223,8 @@ function draw_logic(){
 }
 
 function logic(){
-    if(!game_running){
+    if(!game_running
+      || canvas_menu){
         return;
     }
 
@@ -351,7 +352,7 @@ function setmode_logic(newgame){
           + '<div class=right><div><input disabled value=Click>Cast Spell<br>'
           + '<input id=character-key maxlength=1>Character Info<br>'
           + '<input id=inventory-key maxlength=1>Inventory<br>'
-          + '<input disabled value=ESC>Main Menu<br>'
+          + '<input disabled value=ESC>Menu<br>'
           + '<input id=movement-keys maxlength=4>Move ↑←↓→<br>'
           + '<input disabled value="0 - 9">Select Spell<br>'
           + '<input id=spellbook-key maxlength=1>Spellbook</div><hr>'
@@ -388,12 +389,9 @@ window.onkeydown = function(e){
 
     var key = e.keyCode || e.which;
 
-    // ESC: return to main menu.
+    // ESC: menu.
     if(key === 27){
-        canvas_setmode(
-          0,
-          true
-        );
+        canvas_menu_toggle();
         return;
 
     }else if(key > 47
@@ -434,6 +432,9 @@ window.onkeydown = function(e){
         rpg_ui = rpg_ui === 3
           ? 0
           : 3;
+
+    }else if(key === 'Q'){
+        canvas_menu_quit();
     }
 };
 
