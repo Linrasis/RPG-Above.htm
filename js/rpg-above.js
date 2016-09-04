@@ -204,16 +204,10 @@ function draw_logic(){
     }
 
     // Draw game over messages.
-    if(!game_running){
-        canvas_buffer.textAlign = 'center';
-        canvas_buffer.fillText(
-          'ESC = Main Menu',
-          canvas_x,
-          220
-        );
-
+    if(rpg_player['dead']){
         canvas_buffer.fillStyle = '#f00';
         canvas_buffer.font = canvas_fonts['big'];
+        canvas_buffer.textAlign = 'center';
         canvas_buffer.fillText(
           'YOU ARE DEAD',
           canvas_x,
@@ -223,40 +217,41 @@ function draw_logic(){
 }
 
 function logic(){
-    if(!game_running
-      || canvas_menu){
+    if(canvas_menu){
         return;
     }
 
     var player_dx = 0;
     var player_dy = 0;
 
-    // Add player key movments to dx and dy, if still within level boundaries.
-    if(key_left){
-        player_dx -= 2;
-    }
-
-    if(key_right){
-        player_dx += 2;
-    }
-
-    if(key_down){
-        if(player_dx != 0){
-            player_dx = player_dx / 2 * Math.SQRT2;
-            player_dy += Math.SQRT2;
-
-        }else{
-            player_dy += 2;
+    if(!rpg_player['dead']){
+        // Add player key movments to dx and dy, if still within level boundaries.
+        if(key_left){
+            player_dx -= 2;
         }
-    }
 
-    if(key_up){
-        if(player_dx != 0){
-            player_dx = player_dx / 2 * Math.SQRT2;
-            player_dy -= Math.SQRT2;
+        if(key_right){
+            player_dx += 2;
+        }
 
-        }else{
-            player_dy -= 2;
+        if(key_down){
+            if(player_dx != 0){
+                player_dx = player_dx / 2 * Math.SQRT2;
+                player_dy += Math.SQRT2;
+
+            }else{
+                player_dy += 2;
+            }
+        }
+
+        if(key_up){
+            if(player_dx != 0){
+                player_dx = player_dx / 2 * Math.SQRT2;
+                player_dy -= Math.SQRT2;
+
+            }else{
+                player_dy -= 2;
+            }
         }
     }
 
@@ -340,7 +335,6 @@ function mouse_wheel(e){
 }
 
 function setmode_logic(newgame){
-    game_running = true;
     rpg_npcs.length = 0;
     rpg_particles.length = 0;
     rpg_world_dynamic.length = 0;
@@ -495,8 +489,7 @@ window.onmousedown = function(e){
 };
 
 window.onmousemove = function(e){
-    if(canvas_mode <= 0
-      || !game_running){
+    if(canvas_mode <= 0){
         return;
     }
 
