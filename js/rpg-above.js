@@ -169,7 +169,7 @@ function draw_logic(){
     );
 
     // Draw selected UI.
-    buffer.textAlign = 'left';
+    canvas_buffer.textAlign = 'left';
     if(rpg_ui === 1){
         canvas_buffer.fillText(
           'CHARACTER',
