@@ -267,9 +267,12 @@ function logic(){
             continue;
         }
 
-        if(rpg_player['x'] + player_dx - rpg_player['width-half'] > rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']
+        var temp_object_right_x = rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width'];
+        var temp_object_right_y = rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height'];
+
+        if(rpg_player['x'] + player_dx - rpg_player['width-half'] > temp_object_right_x
           || rpg_player['x'] + player_dx + rpg_player['width-half'] < rpg_world_dynamic[object]['x']
-          || rpg_player['y'] + player_dy - rpg_player['height-half'] > rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']
+          || rpg_player['y'] + player_dy - rpg_player['height-half'] > temp_object_right_y
           || rpg_player['y'] + player_dy + rpg_player['height-half'] < rpg_world_dynamic[object]['y']){
             continue;
         }
@@ -286,16 +289,16 @@ function logic(){
         }
 
         if(rpg_player['y'] > rpg_world_dynamic[object]['y'] - rpg_player['height-half']
-          && rpg_player['y'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height'] + rpg_player['height-half']){
+          && rpg_player['y'] < temp_object_right_y + rpg_player['height-half']){
             if(key_left
               && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']
-              && rpg_player['y'] + player_dy - rpg_player['height-half'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']
-              && rpg_player['x'] + player_dx - rpg_player['width-half'] < rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']){
+              && rpg_player['y'] + player_dy - rpg_player['height-half'] < temp_object_right_y
+              && rpg_player['x'] + player_dx - rpg_player['width-half'] < temp_object_right_x){
                 player_dx = 0;
 
             }else if(key_right
               && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']
-              && rpg_player['y'] + player_dy - rpg_player['height-half'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']
+              && rpg_player['y'] + player_dy - rpg_player['height-half'] < temp_object_right_y
               && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']){
                 player_dx = 0;
             }
@@ -303,14 +306,14 @@ function logic(){
 
         if(key_down
           && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']
-          && rpg_player['x'] + player_dx - rpg_player['width-half'] < rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']
+          && rpg_player['x'] + player_dx - rpg_player['width-half'] < temp_object_right_x
           && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']){
             player_dy = 0;
 
         }else if(key_up
           && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']
-          && rpg_player['x'] + player_dx - rpg_player['width-half'] < rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width']
-          && rpg_player['y'] + player_dy - rpg_player['height-half'] < rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height']){
+          && rpg_player['x'] + player_dx - rpg_player['width-half'] < temp_object_right_x
+          && rpg_player['y'] + player_dy - rpg_player['height-half'] < temp_object_right_y){
             player_dy = 0;
         }
     }
