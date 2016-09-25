@@ -92,15 +92,15 @@ function load_level(id){
     rpg_world_static.push({
       'color': '#333',
       'height': 250,
-      'width': 250,
+      'width': 275,
       'x': -125,
       'y': -125,
     });
     rpg_world_static.push({
       'color': '#111',
       'height': 350,
-      'width': 500,
-      'x': 125,
+      'width': 475,
+      'x': 150,
       'y': -225,
     });
 
