@@ -95,7 +95,7 @@ function draw_logic(){
       0,
       0,
       200,
-      250
+      200
     );
 
     canvas_buffer.fillStyle = '#0a0';
@@ -170,6 +170,11 @@ function draw_logic(){
 
     // Draw selected UI.
     canvas_buffer.textAlign = 'left';
+    canvas_buffer.fillText(
+      rpg_player['spellbar'][rpg_player['selected']],
+      10,
+      225
+    );
     if(rpg_ui === 1){
         canvas_buffer.fillText(
           'CHARACTER',
