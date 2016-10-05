@@ -9,8 +9,8 @@ function draw_logic(){
 
     canvas_buffer.save();
     canvas_buffer.translate(
-      -rpg_player['x'],
-      -rpg_player['y']
+      -rpg_characters[0]['x'],
+      -rpg_characters[0]['y']
     );
 
     // Draw static world objects.
@@ -35,14 +35,14 @@ function draw_logic(){
         );
     }
 
-    // Draw NPCs.
-    for(var npc in rpg_npcs){
-        canvas_buffer.fillStyle = rpg_npcs[npc]['color'];
+    // Draw characters.
+    for(var character in rpg_characters){
+        canvas_buffer.fillStyle = rpg_characters[character]['color'];
         canvas_buffer.fillRect(
-          rpg_npcs[npc]['x'] - rpg_npcs[npc]['width-half'],
-          rpg_npcs[npc]['y'] - rpg_npcs[npc]['height-half'],
-          rpg_npcs[npc]['width'],
-          rpg_npcs[npc]['height']
+          rpg_characters[character]['x'] - rpg_characters[character]['width-half'],
+          rpg_characters[character]['y'] - rpg_characters[character]['height-half'],
+          rpg_characters[character]['width'],
+          rpg_characters[character]['height']
         );
     }
 
@@ -59,14 +59,7 @@ function draw_logic(){
 
     canvas_buffer.restore();
 
-    // Draw player and targeting direction.
-    canvas_buffer.fillStyle = settings_settings['color'];
-    canvas_buffer.fillRect(
-      -rpg_player['width-half'],
-      -rpg_player['height-half'],
-      rpg_player['width'],
-      rpg_player['height']
-    );
+    // Draw player targeting direction.
     var endpoint = math_fixed_length_line(
       0,
       0,
@@ -102,14 +95,14 @@ function draw_logic(){
     canvas_buffer.fillRect(
       0,
       0,
-      200 * (rpg_player['stats']['health']['current'] / rpg_player['stats']['health']['max']),
+      200 * (rpg_characters[0]['stats']['health']['current'] / rpg_characters[0]['stats']['health']['max']),
       100
     );
     canvas_buffer.fillStyle = '#66f';
     canvas_buffer.fillRect(
       0,
       100,
-      200 * (rpg_player['stats']['mana']['current'] / rpg_player['stats']['mana']['max']),
+      200 * (rpg_characters[0]['stats']['mana']['current'] / rpg_characters[0]['stats']['mana']['max']),
       100
     );
 
@@ -120,50 +113,50 @@ function draw_logic(){
     canvas_buffer.textBaseline = 'middle';
 
     canvas_buffer.fillText(
-      rpg_player['stats']['health']['current'],
+      rpg_characters[0]['stats']['health']['current'],
       50,
       25
     );
     canvas_buffer.fillText(
-      rpg_player['stats']['health']['max'],
+      rpg_characters[0]['stats']['health']['max'],
       50,
       75
     );
     canvas_buffer.fillText(
-      rpg_player['stats']['mana']['current'],
+      rpg_characters[0]['stats']['mana']['current'],
       50,
       125
     );
     canvas_buffer.fillText(
-      rpg_player['stats']['mana']['max'],
+      rpg_characters[0]['stats']['mana']['max'],
       50,
       175
     );
     canvas_buffer.fillText(
       parseInt(
-        rpg_player['stats']['health']['current'] * 100 / rpg_player['stats']['health']['max'],
+        rpg_characters[0]['stats']['health']['current'] * 100 / rpg_characters[0]['stats']['health']['max'],
         10
       ) + '%',
       150,
       25
     );
     canvas_buffer.fillText(
-      rpg_player['stats']['health']['regeneration']['current']
-        + '/' + rpg_player['stats']['health']['regeneration']['max'],
+      rpg_characters[0]['stats']['health']['regeneration']['current']
+        + '/' + rpg_characters[0]['stats']['health']['regeneration']['max'],
       150,
       75
     );
     canvas_buffer.fillText(
       parseInt(
-        rpg_player['stats']['mana']['current'] * 100 / rpg_player['stats']['mana']['max'],
+        rpg_characters[0]['stats']['mana']['current'] * 100 / rpg_characters[0]['stats']['mana']['max'],
         10
       ) + '%',
       150,
       125
     );
     canvas_buffer.fillText(
-      rpg_player['stats']['mana']['regeneration']['current']
-        + '/' + rpg_player['stats']['mana']['regeneration']['max'],
+      rpg_characters[0]['stats']['mana']['regeneration']['current']
+        + '/' + rpg_characters[0]['stats']['mana']['regeneration']['max'],
       150,
       175
     );
@@ -171,7 +164,7 @@ function draw_logic(){
     // Draw selected UI.
     canvas_buffer.textAlign = 'left';
     canvas_buffer.fillText(
-      rpg_player['spellbar'][rpg_player['selected']],
+      rpg_characters[0]['spellbar'][rpg_characters[0]['selected']],
       10,
       225
     );
@@ -190,12 +183,12 @@ function draw_logic(){
         );
 
     }else if(rpg_ui === 3){
-        for(var spell in rpg_player['spellbar']){
+        for(var spell in rpg_characters[0]['spellbar']){
             canvas_buffer.fillText(
               spell
                 + ': '
-                + rpg_player['spellbar'][spell]
-                + (spell == rpg_player['selected']
+                + rpg_characters[0]['spellbar'][spell]
+                + (spell == rpg_characters[0]['selected']
                   ? ', selected'
                   : ''
                 ),
@@ -209,7 +202,7 @@ function draw_logic(){
     }
 
     // Draw game over messages.
-    if(rpg_player['dead']){
+    if(rpg_characters[0]['dead']){
         canvas_buffer.fillStyle = '#f00';
         canvas_buffer.font = canvas_fonts['big'];
         canvas_buffer.textAlign = 'center';
@@ -229,7 +222,7 @@ function logic(){
     var player_dx = 0;
     var player_dy = 0;
 
-    if(!rpg_player['dead']){
+    if(!rpg_characters[0]['dead']){
         // Add player key movments to dx and dy, if still within level boundaries.
         if(key_left){
             player_dx -= 2;
@@ -270,15 +263,16 @@ function logic(){
         var temp_object_right_x = rpg_world_dynamic[object]['x'] + rpg_world_dynamic[object]['width'];
         var temp_object_right_y = rpg_world_dynamic[object]['y'] + rpg_world_dynamic[object]['height'];
 
-        if(rpg_player['x'] + player_dx - rpg_player['width-half'] > temp_object_right_x
-          || rpg_player['x'] + player_dx + rpg_player['width-half'] < rpg_world_dynamic[object]['x']
-          || rpg_player['y'] + player_dy - rpg_player['height-half'] > temp_object_right_y
-          || rpg_player['y'] + player_dy + rpg_player['height-half'] < rpg_world_dynamic[object]['y']){
+        if(rpg_characters[0]['x'] + player_dx - rpg_characters[0]['width-half'] > temp_object_right_x
+          || rpg_characters[0]['x'] + player_dx + rpg_characters[0]['width-half'] < rpg_world_dynamic[object]['x']
+          || rpg_characters[0]['y'] + player_dy - rpg_characters[0]['height-half'] > temp_object_right_y
+          || rpg_characters[0]['y'] + player_dy + rpg_characters[0]['height-half'] < rpg_world_dynamic[object]['y']){
             continue;
         }
 
         if(rpg_world_dynamic[object]['effect'] > 0){
-            rpg_player_affect(
+            rpg_character_affect(
+              0,
               rpg_world_dynamic[object]['effect-stat'],
               rpg_world_dynamic[object]['effect']
             );
@@ -288,42 +282,41 @@ function logic(){
             continue;
         }
 
-        if(rpg_player['y'] > rpg_world_dynamic[object]['y'] - rpg_player['height-half']
-          && rpg_player['y'] < temp_object_right_y + rpg_player['height-half']){
+        if(rpg_characters[0]['y'] > rpg_world_dynamic[object]['y'] - rpg_characters[0]['height-half']
+          && rpg_characters[0]['y'] < temp_object_right_y + rpg_characters[0]['height-half']){
             if(key_left
-              && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']
-              && rpg_player['y'] + player_dy - rpg_player['height-half'] < temp_object_right_y
-              && rpg_player['x'] + player_dx - rpg_player['width-half'] < temp_object_right_x){
+              && rpg_characters[0]['y'] + player_dy + rpg_characters[0]['height-half'] > rpg_world_dynamic[object]['y']
+              && rpg_characters[0]['y'] + player_dy - rpg_characters[0]['height-half'] < temp_object_right_y
+              && rpg_characters[0]['x'] + player_dx - rpg_characters[0]['width-half'] < temp_object_right_x){
                 player_dx = 0;
 
             }else if(key_right
-              && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']
-              && rpg_player['y'] + player_dy - rpg_player['height-half'] < temp_object_right_y
-              && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']){
+              && rpg_characters[0]['y'] + player_dy + rpg_characters[0]['height-half'] > rpg_world_dynamic[object]['y']
+              && rpg_characters[0]['y'] + player_dy - rpg_characters[0]['height-half'] < temp_object_right_y
+              && rpg_characters[0]['x'] + player_dx + rpg_characters[0]['width-half'] > rpg_world_dynamic[object]['x']){
                 player_dx = 0;
             }
         }
 
         if(key_down
-          && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']
-          && rpg_player['x'] + player_dx - rpg_player['width-half'] < temp_object_right_x
-          && rpg_player['y'] + player_dy + rpg_player['height-half'] > rpg_world_dynamic[object]['y']){
+          && rpg_characters[0]['x'] + player_dx + rpg_characters[0]['width-half'] > rpg_world_dynamic[object]['x']
+          && rpg_characters[0]['x'] + player_dx - rpg_characters[0]['width-half'] < temp_object_right_x
+          && rpg_characters[0]['y'] + player_dy + rpg_characters[0]['height-half'] > rpg_world_dynamic[object]['y']){
             player_dy = 0;
 
         }else if(key_up
-          && rpg_player['x'] + player_dx + rpg_player['width-half'] > rpg_world_dynamic[object]['x']
-          && rpg_player['x'] + player_dx - rpg_player['width-half'] < temp_object_right_x
-          && rpg_player['y'] + player_dy - rpg_player['height-half'] < temp_object_right_y){
+          && rpg_characters[0]['x'] + player_dx + rpg_characters[0]['width-half'] > rpg_world_dynamic[object]['x']
+          && rpg_characters[0]['x'] + player_dx - rpg_characters[0]['width-half'] < temp_object_right_x
+          && rpg_characters[0]['y'] + player_dy - rpg_characters[0]['height-half'] < temp_object_right_y){
             player_dy = 0;
         }
     }
 
     // Update actual player position.
-    rpg_player['x'] += player_dx;
-    rpg_player['y'] += player_dy;
+    rpg_characters[0]['x'] += player_dx;
+    rpg_characters[0]['y'] += player_dy;
 
-    rpg_player_handle();
-    rpg_npc_handle();
+    rpg_character_handle();
     rpg_particle_handle();
 }
 
@@ -333,7 +326,8 @@ function mouse_wheel(e){
     }
 
     rpg_spell_select(
-      rpg_player['selected']
+      0,
+      rpg_characters[0]['selected']
         + (
           (e.wheelDelta || -e.detail) > 0
             ? -1
@@ -343,7 +337,7 @@ function mouse_wheel(e){
 }
 
 function setmode_logic(newgame){
-    rpg_npcs.length = 0;
+    rpg_characters.length = 0;
     rpg_particles.length = 0;
     rpg_world_dynamic.length = 0;
     rpg_world_static.length = 0;
@@ -371,7 +365,7 @@ function setmode_logic(newgame){
         }
 
         rpg_ui = 0;
-        //rpg_spell_select(rpg_player['selected']);
+        //rpg_spell_select(0, rpg_characters[0]['selected']);
     }
 }
 
@@ -399,6 +393,7 @@ window.onkeydown = function(e){
     }else if(key > 47
       && key < 58){
         rpg_spell_select(
+          0,
           key === 48
             ? 10
             : key - 48

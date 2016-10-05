@@ -1,7 +1,10 @@
 'use strict';
 
 function load_level(id){
-    rpg_player_create({
+    rpg_character_create({
+      'color': settings_settings['color'],
+      'height': 34,
+      'player': true,
       'spellbar': {
         1: 'manabolt',
         2: 'create block',
@@ -87,6 +90,7 @@ function load_level(id){
           },
         },
       },
+      'width': 34,
     });
 
     rpg_world_static.push({
@@ -194,12 +198,12 @@ function load_level(id){
       'y': -250,
     });
 
-    rpg_npc_create({
+    rpg_character_create({
       'team': 0,
       'x': -25,
       'y': -100,
     });
-    rpg_npc_create({
+    rpg_character_create({
       'selected': 'manabolt',
       'spellbook': {
         'manabolt': {
