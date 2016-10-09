@@ -164,42 +164,10 @@ function draw_logic(){
     // Draw selected UI.
     canvas_buffer.textAlign = 'left';
     canvas_buffer.fillText(
-      rpg_characters[0]['spellbar'][rpg_characters[0]['selected']],
+      rpg_characters[0]['inventory'][rpg_characters[0]['selected']]['label'],
       10,
       225
     );
-    if(rpg_ui === 1){
-        canvas_buffer.fillText(
-          'CHARACTER',
-          205,
-          13
-        );
-
-    }else if(rpg_ui === 2){
-        canvas_buffer.fillText(
-          'Inventory is empty.',
-          205,
-          13
-        );
-
-    }else if(rpg_ui === 3){
-        for(var spell in rpg_characters[0]['spellbar']){
-            canvas_buffer.fillText(
-              spell
-                + ': '
-                + rpg_characters[0]['spellbar'][spell]
-                + (spell == rpg_characters[0]['selected']
-                  ? ', selected'
-                  : ''
-                ),
-              205,
-              25 * parseInt(
-                spell,
-                10
-              ) - 12
-            );
-        }
-    }
 
     // Draw game over messages.
     if(rpg_characters[0]['dead']){
@@ -325,7 +293,7 @@ function mouse_wheel(e){
         return;
     }
 
-    rpg_spell_select(
+    rpg_item_select(
       0,
       rpg_characters[0]['selected']
         + (
@@ -345,13 +313,10 @@ function setmode_logic(newgame){
     // Main menu mode.
     if(canvas_mode === 0){
         document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Test Level</a></div></div>'
-          + '<div class=right><div><input disabled value=Click>Cast Spell<br>'
-          + '<input id=character-key maxlength=1>Character Info<br>'
-          + '<input id=inventory-key maxlength=1>Inventory<br>'
+          + '<div class=right><div><input disabled value=Click>Use Item<br>'
           + '<input disabled value=ESC>Menu<br>'
           + '<input id=movement-keys maxlength=4>Move ↑←↓→<br>'
-          + '<input disabled value="0 - 9">Select Spell<br>'
-          + '<input id=spellbook-key maxlength=1>Spellbook</div><hr>'
+          + '<input disabled value=Wheel>Select Items/Spells</div><hr>'
           + '<div><input id=audio-volume max=1 min=0 step=0.01 type=range>Audio<br>'
           + '<input id=color type=color>Color<br>'
           + '<input id=ms-per-frame>ms/Frame<br>'
@@ -363,9 +328,6 @@ function setmode_logic(newgame){
         if(newgame){
             settings_save();
         }
-
-        rpg_ui = 0;
-        //rpg_spell_select(0, rpg_characters[0]['selected']);
     }
 }
 
@@ -389,16 +351,6 @@ window.onkeydown = function(e){
     if(key === 27){
         canvas_menu_toggle();
         return;
-
-    }else if(key > 47
-      && key < 58){
-        rpg_spell_select(
-          0,
-          key === 48
-            ? 10
-            : key - 48
-        );
-        return;
     }
 
     key = String.fromCharCode(key);
@@ -414,21 +366,6 @@ window.onkeydown = function(e){
 
     }else if(key === settings_settings['movement-keys'][3]){
         key_right = true;
-
-    }else if(key === settings_settings['character-key']){
-        rpg_ui = rpg_ui === 1
-          ? 0
-          : 1;
-
-    }else if(key === settings_settings['inventory-key']){
-        rpg_ui = rpg_ui === 2
-          ? 0
-          : 2;
-
-    }else if(key === settings_settings['spellbook-key']){
-        rpg_ui = rpg_ui === 3
-          ? 0
-          : 3;
 
     }else if(key === 'Q'){
         canvas_menu_quit();
@@ -468,12 +405,9 @@ window.onload = function(e){
       'RPG-Above.htm-',
       {
         'audio-volume': 1,
-        'character-key': 'C',
         'color': '#009900',
-        'inventory-key': 'B',
         'movement-keys': 'WASD',
         'ms-per-frame': 25,
-        'spellbook-key': 'V',
       }
     );
     canvas_init();

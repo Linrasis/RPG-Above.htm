@@ -4,63 +4,13 @@ function load_level(id){
     rpg_character_create({
       'color': settings_settings['color'],
       'height': 34,
-      'player': true,
-      'spellbar': {
-        1: 'manabolt',
-        2: 'create block',
-        3: 'lifebolt',
-        4: 'heal',
-        5: 'manabolt',
-        6: 'manabolt',
-        7: 'manabolt',
-        8: 'manabolt',
-        9: 'manabolt',
-        10: 'manabolt',
-      },
-      'spellbook': {
-        'create block': {
-          'cost': 10,
-          'costs': 'mana',
-          'current': 10,
-          'cursor': 'crosshair',
-          'reload': 10,
-          'type': 'world-dynamic',
-          'world-dynamic': {
-            'color': '#151',
-          },
-        },
-        'heal': {
-          'cost': 1,
-          'costs': 'mana',
-          'current': 10,
-          'cursor': 'pointer',
-          'effect': {
-            'damage': -1,
-            'stat': 'health',
-          },
-          'reload': 10,
-          'type': 'stat',
-        },
-        'lifebolt': {
-          'cost': 1,
-          'costs': 'health',
-          'current': 10,
-          'cursor': 'crosshair',
-          'particle': {
-            'color': '#0f0',
-            'damage': 2,
-            'lifespan': 100,
-            'speed-x': 5,
-            'speed-y': 5,
-          },
-          'reload': 10,
-          'type': 'particle',
-        },
-        'manabolt': {
+      'inventory': [
+        {
           'cost': 1,
           'costs': 'mana',
           'current': 10,
           'cursor': 'crosshair',
+          'label': 'manabolt',
           'particle': {
             'color': '#00f',
             'damage': 1,
@@ -71,7 +21,49 @@ function load_level(id){
           'reload': 10,
           'type': 'particle',
         },
-      },
+        {
+          'cost': 10,
+          'costs': 'mana',
+          'current': 10,
+          'cursor': 'crosshair',
+          'label': 'create block',
+          'reload': 10,
+          'type': 'world-dynamic',
+          'world-dynamic': {
+            'color': '#151',
+          },
+        },
+        {
+          'cost': 1,
+          'costs': 'mana',
+          'current': 10,
+          'cursor': 'pointer',
+          'effect': {
+            'damage': -1,
+            'stat': 'health',
+          },
+          'label': 'heal',
+          'reload': 10,
+          'type': 'stat',
+        },
+        {
+          'cost': 1,
+          'costs': 'health',
+          'current': 10,
+          'cursor': 'crosshair',
+          'label': 'lifebolt',
+          'particle': {
+            'color': '#0f0',
+            'damage': 2,
+            'lifespan': 100,
+            'speed-x': 5,
+            'speed-y': 5,
+          },
+          'reload': 10,
+          'type': 'particle',
+        },
+      ],
+      'player': true,
       'stats': {
         'health': {
           'current': 10,
@@ -204,14 +196,12 @@ function load_level(id){
       'y': -100,
     });
     rpg_character_create({
-      'spellbar': {
-        1: 'manabolt',
-      },
-      'spellbook': {
-        'manabolt': {
+      'inventory': [
+        {
           'cost': 0,
           'costs': 'health',
           'current': 10,
+          'label': 'manabolt',
           'particle': {
             'color': '#00f',
             'damage': 1,
@@ -222,7 +212,7 @@ function load_level(id){
           'reload': 10,
           'type': 'particle',
         },
-      },
+      ],
       'stats': {
         'health': {
           'current': 10,
