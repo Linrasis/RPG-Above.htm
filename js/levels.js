@@ -204,22 +204,33 @@ function load_level(id){
       'y': -100,
     });
     rpg_character_create({
-      'selected': 'manabolt',
+      'spellbar': {
+        1: 'manabolt',
+      },
       'spellbook': {
         'manabolt': {
-          'color': '#f00',
-          'current': 0,
-          'damage': 1,
-          'lifespan': 50,
+          'cost': 0,
+          'costs': 'health',
+          'current': 10,
+          'particle': {
+            'color': '#00f',
+            'damage': 1,
+            'lifespan': 50,
+            'speed-x': 5,
+            'speed-y': 5,
+          },
           'reload': 10,
-          'speed-x': 5,
-          'speed-y': 5,
+          'type': 'particle',
         },
       },
       'stats': {
         'health': {
           'current': 10,
           'max': 10,
+          'regeneration': {
+            'current': 0,
+            'max': 1000,
+          },
         },
       },
       'x': 600,
