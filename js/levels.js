@@ -5,83 +5,29 @@ function load_level(id){
       'color': settings_settings['color'],
       'height': 34,
       'inventory': [
-        {
-          'cost': 1,
-          'costs': 'mana',
-          'current': 10,
-          'cursor': 'crosshair',
-          'label': 'manabolt',
-          'particle': {
-            'color': '#00f',
-            'damage': 1,
-            'lifespan': 50,
-            'speed-x': 5,
-            'speed-y': 5,
-          },
-          'reload': 10,
-          'type': 'particle',
-        },
-        {
-          'cost': 10,
-          'costs': 'mana',
-          'current': 10,
-          'cursor': 'crosshair',
-          'label': 'create block',
-          'reload': 10,
-          'type': 'world-dynamic',
-          'world-dynamic': {
-            'color': '#151',
-          },
-        },
-        {
-          'cost': 1,
-          'costs': 'mana',
-          'current': 10,
+        rpg_item_create({
           'cursor': 'pointer',
-          'effect': {
-            'damage': -1,
-            'stat': 'health',
+          'label': 'Scroll of Healthbolt',
+          'spell': {
+            'color': '#00f',
+            'cost': 1,
+            'costs': 'health',
+            'damage': 1,
+            'reload': 10,
           },
-          'label': 'heal',
-          'reload': 10,
-          'type': 'stat',
-        },
-        {
-          'cost': 1,
-          'costs': 'health',
-          'current': 10,
-          'cursor': 'crosshair',
-          'label': 'lifebolt',
-          'particle': {
-            'color': '#0f0',
-            'damage': 2,
-            'lifespan': 100,
-            'speed-x': 5,
-            'speed-y': 5,
+        }),
+        rpg_item_create({
+          'cursor': 'pointer',
+          'label': 'Scroll of Manabolt',
+          'spell': {
+            'color': '#00f',
+            'cost': 1,
+            'damage': 1,
+            'reload': 10,
           },
-          'reload': 10,
-          'type': 'particle',
-        },
+        }),
       ],
       'player': true,
-      'stats': {
-        'health': {
-          'current': 10,
-          'max': 10,
-          'regeneration': {
-            'current': 0,
-            'max': 1000,
-          },
-        },
-        'mana': {
-          'current': 10,
-          'max': 10,
-          'regeneration': {
-            'current': 0,
-            'max': 100,
-          },
-        },
-      },
       'width': 34,
     });
 
@@ -197,32 +143,16 @@ function load_level(id){
     });
     rpg_character_create({
       'inventory': [
-        {
-          'cost': 0,
-          'costs': 'health',
-          'current': 10,
-          'label': 'manabolt',
-          'particle': {
+        rpg_item_create({
+          'label': 'Scroll of Manabolt',
+          'owner': 2,
+          'spell': {
             'color': '#00f',
             'damage': 1,
-            'lifespan': 50,
-            'speed-x': 5,
-            'speed-y': 5,
+            'reload': 10,
           },
-          'reload': 10,
-          'type': 'particle',
-        },
+        }),
       ],
-      'stats': {
-        'health': {
-          'current': 10,
-          'max': 10,
-          'regeneration': {
-            'current': 0,
-            'max': 1000,
-          },
-        },
-      },
       'x': 600,
       'y': 400,
     });

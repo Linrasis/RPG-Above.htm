@@ -165,8 +165,8 @@ function draw_logic(){
     canvas_buffer.textAlign = 'left';
     canvas_buffer.fillText(
       rpg_characters[0]['inventory'][rpg_characters[0]['selected']]['label'],
-      10,
-      225
+      210,
+      20
     );
 
     // Draw game over messages.
