@@ -9,7 +9,7 @@ function load_level(id){
           'cursor': 'pointer',
           'label': 'Scroll of Healthbolt',
           'spell': {
-            'color': '#00f',
+            'color': '#0f0',
             'cost': 1,
             'costs': 'health',
             'damage': 1,
