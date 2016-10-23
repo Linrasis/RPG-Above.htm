@@ -166,7 +166,7 @@ function draw_logic(){
     canvas_buffer.fillText(
       rpg_characters[0]['inventory'][rpg_characters[0]['selected']]['label'],
       210,
-      20
+      25
     );
 
     // Draw game over messages.
@@ -416,7 +416,7 @@ window.onload = function(e){
 window.onmousedown = function(e){
     if(canvas_mode <= 0
       || (mouse_x <= 200
-        && mouse_y <= 250)){
+        && mouse_y <= 200)){
         return;
     }
 

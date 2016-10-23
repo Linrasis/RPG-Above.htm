@@ -7,6 +7,16 @@ function load_level(id){
       'inventory': [
         rpg_item_create({
           'cursor': 'pointer',
+          'label': 'Scroll of Manabolt',
+          'spell': {
+            'color': '#00f',
+            'cost': 1,
+            'damage': 1,
+            'reload': 10,
+          },
+        }),
+        rpg_item_create({
+          'cursor': 'pointer',
           'label': 'Scroll of Healthbolt',
           'spell': {
             'color': '#0f0',
@@ -18,12 +28,23 @@ function load_level(id){
         }),
         rpg_item_create({
           'cursor': 'pointer',
-          'label': 'Scroll of Manabolt',
+          'label': 'Barricade',
+          'spell': {
+            'color': '#00f',
+            'cost': 10,
+            'reload': 10,
+            'type': 'character',
+          },
+        }),
+        rpg_item_create({
+          'cursor': 'pointer',
+          'label': 'Heal',
           'spell': {
             'color': '#00f',
             'cost': 1,
-            'damage': 1,
+            'damage': -1,
             'reload': 10,
+            'type': 'stat',
           },
         }),
       ],
