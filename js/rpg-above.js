@@ -60,13 +60,13 @@ function draw_logic(){
     canvas_buffer.restore();
 
     // Draw player targeting direction.
-    var endpoint = math_fixed_length_line(
-      0,
-      0,
-      mouse_x - canvas_x,
-      mouse_y - canvas_y,
-      25
-    );
+    var endpoint = math_fixed_length_line({
+      'length': 25,
+      'x0': 0,
+      'x1': mouse_x - canvas_x,
+      'y0': 0,
+      'y1': mouse_y - canvas_y,
+    });
     canvas_draw_path(
       [
         {
