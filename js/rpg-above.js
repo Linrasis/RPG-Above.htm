@@ -405,15 +405,15 @@ window.onload = function(e){
         );
     }
 
-    settings_init(
-      'RPG-Above.htm-',
-      {
+    settings_init({
+      'prefix': 'RPG-Above.htm-',
+      'settings': {
         'audio-volume': 1,
         'color': '#009900',
         'movement-keys': 'WASD',
         'ms-per-frame': 25,
-      }
-    );
+      },
+    });
     canvas_init();
 };
 
