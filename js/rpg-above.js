@@ -67,8 +67,12 @@ function draw_logic(){
       'y0': 0,
       'y1': mouse_y - canvas_y,
     });
-    canvas_draw_path(
-      [
+    canvas_draw_path({
+      'properties': {
+        'strokeStyle': '#fff',
+      },
+      'style': 'stroke',
+      'vertices': [
         {
           'type': 'moveTo',
           'x': 0,
@@ -79,11 +83,7 @@ function draw_logic(){
           'y': endpoint['y'],
         },
       ],
-      {
-        'strokeStyle': '#fff',
-      },
-      'stroke'
-    );
+    });
 
     canvas_buffer.restore();
 
@@ -316,7 +316,7 @@ function setmode_logic(newgame){
 
     // Main menu mode.
     if(canvas_mode === 0){
-        document.body.innerHTML = '<div><div><a onclick="canvas_setmode(1, true)">Test Level</a></div></div>'
+        document.body.innerHTML = '<div><div><a onclick=canvas_setmode({mode:1,newgame:true})>Test Level</a></div></div>'
           + '<div class=right><div><input disabled value=Click>Use Item<br>'
           + '<input disabled value=ESC>Menu<br>'
           + '<input id=movement-keys maxlength=4>Move ↑←↓→<br>'
