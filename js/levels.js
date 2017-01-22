@@ -3,7 +3,7 @@
 function load_level(id){
     rpg_character_create({
       'properties': {
-        'color': settings_settings['color'],
+        'color': storage_data['color'],
         'height': 34,
         'inventory': [
           rpg_item_create({
