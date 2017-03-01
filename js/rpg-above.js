@@ -309,10 +309,7 @@ function mouse_wheel(e){
 }
 
 function setmode_logic(newgame){
-    rpg_characters.length = 0;
-    rpg_particles.length = 0;
-    rpg_world_dynamic.length = 0;
-    rpg_world_static.length = 0;
+    rpg_unload();
 
     // Main menu mode.
     if(canvas_mode === 0){
@@ -328,10 +325,8 @@ function setmode_logic(newgame){
         storage_update();
 
     // New game mode.
-    }else{
-        if(newgame){
-            storage_save();
-        }
+    }else if(newgame){
+        storage_save();
     }
 }
 
