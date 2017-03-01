@@ -289,8 +289,7 @@ function logic(){
     rpg_characters[0]['x'] += player_dx;
     rpg_characters[0]['y'] += player_dy;
 
-    rpg_character_handle();
-    rpg_particle_handle();
+    rpg_handle_all();
 }
 
 function mouse_wheel(e){
